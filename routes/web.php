@@ -5,6 +5,7 @@ use App\Http\Controllers\Admin\DashboardController as AdminDashboardController;
 use App\Http\Controllers\Customer\BookingController;
 use App\Http\Controllers\Customer\HomeController;
 use App\Http\Controllers\Customer\RoomController;
+use App\Http\Controllers\Receptionist\BookingController as ReceptionistBookingController;
 use Illuminate\Support\Facades\Route;
 
 // Trang chủ và phòng có thể xem trước khi đăng nhập.
@@ -30,6 +31,16 @@ Route::middleware(['auth', 'role:receptionist'])
         Route::get('/dashboard', function () {
             return view('receptionist.dashboard');
         })->name('dashboard');
+
+        Route::get('/bookings', [
+            ReceptionistBookingController::class,
+            'index'
+        ])->name('bookings.index');
+
+        Route::get('/bookings/{id}', [
+            ReceptionistBookingController::class,
+            'show'
+        ])->name('bookings.show');
     });
 
 // Khu vực Khách hàng
@@ -39,8 +50,16 @@ Route::middleware(['auth', 'role:customer'])
     ->group(function () {
         Route::get('/dashboard', [HomeController::class, 'index'])
             ->name('dashboard');
-        Route::get('/bookings', [BookingController::class, 'index'])->name('bookings.index');
-        Route::get('/bookings/create', [BookingController::class, 'create'])->name('bookings.create');
-        Route::post('/bookings', [BookingController::class, 'store'])->name('bookings.store');
-        Route::get('/bookings/{booking}', [BookingController::class, 'show'])->name('bookings.show');
+
+        Route::get('/bookings', [BookingController::class, 'index'])
+            ->name('bookings.index');
+
+        Route::get('/bookings/create', [BookingController::class, 'create'])
+            ->name('bookings.create');
+
+        Route::post('/bookings', [BookingController::class, 'store'])
+            ->name('bookings.store');
+
+        Route::get('/bookings/{booking}', [BookingController::class, 'show'])
+            ->name('bookings.show');
     });
