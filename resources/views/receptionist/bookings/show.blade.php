@@ -278,7 +278,7 @@
 
             <span class="mx-2">/</span>
 
-            <a href="{{ url('/test-bookings') }}">Danh sách đặt phòng</a>
+            <a href="{{ url('/receptionist/bookings') }}">Danh sách đặt phòng</a>
 
             <span class="mx-2">/</span>
             Chi tiết
@@ -389,7 +389,7 @@
                 </div>
 
                 <div class="detail-actions">
-                    <a href="{{ url('/test-bookings') }}" class="btn-back">
+                    <a href="{{ url('/receptionist/bookings') }}" class="btn-back">
                         <i class="bi bi-arrow-left"></i>
                         Quay lại danh sách
                     </a>

@@ -60,4 +60,34 @@ class BookingController extends Controller
 
         return view('receptionist.bookings.show', compact('dat'));
     }
+     public function confirm($id)
+    {
+        $dat = DB::table('bookings')
+            ->where('id', $id)
+            ->first();
+
+        if (!$dat) {
+            abort(404, 'Khong tim thay don dat phong.');
+        }
+
+        if ($dat->status != 'pending') {
+            return back()->with(
+                'error',
+                'Chi co don dang cho xac nhan moi duoc xac nhan.'
+            );
+        }
+
+        DB::table('bookings')
+            ->where('id', $id)
+            ->where('status', 'pending')
+            ->update([
+                'status' => 'confirmed',
+                'updated_at' => now()
+            ]);
+
+        return back()->with(
+            'success',
+            'Xac nhan don dat phong thanh cong.'
+        );
+    }
 }

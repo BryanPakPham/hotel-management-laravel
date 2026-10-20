@@ -41,6 +41,11 @@ Route::middleware(['auth', 'role:receptionist'])
             ReceptionistBookingController::class,
             'show'
         ])->name('bookings.show');
+
+        Route::post('/bookings/{id}/confirm', [
+            ReceptionistBookingController::class,
+            'confirm'
+        ])->name('bookings.confirm');
     });
 
 // Khu vực Khách hàng
@@ -63,3 +68,4 @@ Route::middleware(['auth', 'role:customer'])
         Route::get('/bookings/{booking}', [BookingController::class, 'show'])
             ->name('bookings.show');
     });
+

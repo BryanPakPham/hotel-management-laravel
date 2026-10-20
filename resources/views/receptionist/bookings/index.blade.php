@@ -300,6 +300,22 @@
         </div>
 
         <h1 class="page-title">Quản lý đặt phòng</h1>
+        
+        @if (session('success'))
+            <div class="alert alert-success alert-dismissible fade show" role="alert">
+                <i class="bi bi-check-circle me-2"></i>
+                {{ session('success') }}
+                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+            </div>
+        @endif
+
+        @if (session('error'))
+            <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                <i class="bi bi-exclamation-circle me-2"></i>
+                {{ session('error') }}
+                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+            </div>
+        @endif
 
         <p class="page-description">
             Theo dõi, kiểm tra và quản lý các lượt đặt phòng của khách hàng.
@@ -421,14 +437,38 @@
                                         {{ number_format($dat->total_amount, 0, ',', '.') }} VNĐ
                                     </span>
                                 </td>
-
+                                
                                 <td>
-                                    <a href="{{ url('/test-bookings/' . $dat->id) }}"
-                                       class="btn-detail">
-                                        <i class="bi bi-eye"></i>
-                                        Chi tiết
-                                    </a>
+                                    <div class="d-flex flex-column gap-2 align-items-start">
+
+                                        <a href="{{ route('receptionist.bookings.show', $dat->id) }}"
+                                        class="btn-detail">
+                                            <i class="bi bi-eye"></i>
+                                            Chi tiết
+                                        </a>
+
+                                        @if ($dat->status == 'pending')
+                                            <form action="{{ route('receptionist.bookings.confirm', $dat->id) }}"
+                                                method="POST"
+                                                onsubmit="return confirm('Bạn có chắc chắn muốn xác nhận đơn này?');">
+                                                @csrf
+
+                                                <button type="submit" class="btn btn-success btn-sm">
+                                                    <i class="bi bi-check-circle me-1"></i>
+                                                    Xác nhận
+                                                </button>
+                                            </form>
+                                        @elseif ($dat->status == 'confirmed')
+                                            <span class="badge text-bg-success">
+                                                <i class="bi bi-check-circle me-1"></i>
+                                                Đã xác nhận
+                                            </span>
+                                        @endif
+
+                                    </div>
                                 </td>
+
+
                             </tr>
                         @empty
                             <tr>
