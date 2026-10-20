@@ -2,7 +2,6 @@
 
 namespace App\Models;
 
-
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -19,6 +18,7 @@ class Booking extends Model
         'guest_name',
         'guest_phone',
         'guest_email',
+        'note',
         'check_in_date',
         'check_out_date',
         'adults',

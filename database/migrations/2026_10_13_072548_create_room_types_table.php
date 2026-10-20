@@ -13,6 +13,14 @@ return new class extends Migration
     {
         Schema::create('room_types', function (Blueprint $table) {
             $table->id();
+            $table->string('name');
+            $table->string('slug')->unique();
+            $table->text('description')->nullable();
+            $table->decimal('base_price', 12, 2)->default(0);
+            $table->unsignedSmallInteger('max_adults')->default(2);
+            $table->unsignedSmallInteger('max_children')->default(0);
+            $table->string('bed_type')->nullable();
+            $table->decimal('area', 8, 2)->nullable();
             $table->timestamps();
         });
     }

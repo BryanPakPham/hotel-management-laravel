@@ -51,7 +51,7 @@
                         </li>
 
                         <li class="nav-item">
-                            <a class="nav-link" href="#rooms">
+                            <a class="nav-link" href="{{ route('rooms.index') }}">
                                 Phòng nghỉ
                             </a>
                         </li>
@@ -63,7 +63,7 @@
                         </li>
 
                         <li class="nav-item">
-                            <a class="nav-link" href="#highlights">
+                            <a class="nav-link" href="{{ route('highlights') }}">
                                 Điểm nổi bật
                             </a>
                         </li>
@@ -77,7 +77,7 @@
 
                     <div class="header-actions">
                         <!-- TODO: Thay bằng route đăng nhập thực tế khi đã xác định -->
-                        <a href="{{ url('/login') }}" class="btn btn-login">
+                        <a href="{{ auth()->check() ? route('customer.dashboard') : url('/login') }}" class="btn btn-login">
                             <i class="bi bi-person me-1"></i>
                             Đăng nhập
                         </a>
@@ -123,14 +123,13 @@
             @hasSection('search')
             @yield('search')
             @else
-            <form action="{{ url('/') }}" method="GET" class="booking-form" id="bookingSearchForm">
+            <form action="{{ route('rooms.index') }}" method="GET" class="booking-form" id="bookingSearchForm">
 
                 <div class="booking-field booking-destination">
                     <label for="destination">
                         <i class="bi bi-geo-alt"></i>
                         Điểm đến
                     </label>
-
                     <select name="destination" id="destination" class="form-select">
                         <option value="nha-trang">Vinpearl Nha Trang</option>
                         <option value="phu-quoc">Vinpearl Phú Quốc</option>
@@ -346,7 +345,7 @@
                         <li><a href="{{ url('/') }}">Trang chủ</a></li>
                         <li><a href="#rooms">Phòng nghỉ</a></li>
                         <li><a href="#services">Dịch vụ</a></li>
-                        <li><a href="#highlights">Điểm nổi bật</a></li>
+                        <li><a href="{{ route('highlights') }}">Điểm nổi bật</a></li>
                         <li><a href="#about">Giới thiệu</a></li>
                     </ul>
                 </div>

@@ -4,6 +4,146 @@
 // =========================================
 
 document.addEventListener("DOMContentLoaded", function () {
+    const revealItems = document.querySelectorAll("[data-reveal]");
+
+    if ("IntersectionObserver" in window) {
+        const revealObserver = new IntersectionObserver(
+            function (entries, observer) {
+                entries.forEach(function (entry) {
+                    if (!entry.isIntersecting) {
+                        return;
+                    }
+
+                    entry.target.style.setProperty(
+                        "--reveal-delay",
+                        `${entry.target.dataset.revealDelay || 0}ms`
+                    );
+                    entry.target.classList.add("is-visible");
+                    observer.unobserve(entry.target);
+                });
+            },
+            { threshold: 0.14, rootMargin: "0px 0px -45px" }
+        );
+
+        revealItems.forEach(function (item) {
+            revealObserver.observe(item);
+        });
+    } else {
+        revealItems.forEach(function (item) {
+            item.classList.add("is-visible");
+        });
+    }
+
+    const roomMainImage = document.querySelector(
+        ".room-detail__gallery-item--large img"
+    );
+    const roomThumbnails = document.querySelectorAll(".room-detail__thumbnail");
+    const roomGalleryItems = document.querySelectorAll(
+        ".room-detail__gallery-item[data-room-image]"
+    );
+    const roomLightbox = document.getElementById("roomLightbox");
+    const roomLightboxImage = document.getElementById("roomLightboxImage");
+    const roomLightboxCounter = document.getElementById("roomLightboxCounter");
+    const roomLightboxClose = document.getElementById("roomLightboxClose");
+    const roomLightboxPrev = document.getElementById("roomLightboxPrev");
+    const roomLightboxNext = document.getElementById("roomLightboxNext");
+    const roomImages = Array.from(roomThumbnails).map(function (thumbnail) {
+        return thumbnail.dataset.roomImage;
+    });
+    let roomLightboxIndex = 0;
+
+    function updateRoomImage(element) {
+        if (!roomMainImage || !element.dataset.roomImage) {
+            return;
+        }
+
+        roomMainImage.src = element.dataset.roomImage;
+        roomThumbnails.forEach(function (item) {
+            item.classList.toggle(
+                "is-active",
+                item.dataset.roomIndex === element.dataset.roomIndex
+            );
+        });
+    }
+
+    function showRoomLightbox(index) {
+        if (!roomLightbox || !roomLightboxImage || roomImages.length === 0) {
+            return;
+        }
+
+        roomLightboxIndex = (index + roomImages.length) % roomImages.length;
+        roomLightboxImage.src = roomImages[roomLightboxIndex];
+        roomLightboxCounter.textContent =
+            `${roomLightboxIndex + 1} / ${roomImages.length}`;
+        roomLightbox.hidden = false;
+        document.body.classList.add("room-lightbox-open");
+    }
+
+    function closeRoomLightbox() {
+        if (!roomLightbox) {
+            return;
+        }
+
+        roomLightbox.hidden = true;
+        document.body.classList.remove("room-lightbox-open");
+    }
+
+    roomThumbnails.forEach(function (thumbnail) {
+        thumbnail.addEventListener("click", function () {
+            updateRoomImage(thumbnail);
+            showRoomLightbox(Number(thumbnail.dataset.roomIndex));
+        });
+    });
+
+    roomGalleryItems.forEach(function (galleryItem) {
+        galleryItem.addEventListener("click", function () {
+            if (!roomMainImage) {
+                return;
+            }
+
+            updateRoomImage(galleryItem);
+            showRoomLightbox(Number(galleryItem.dataset.roomIndex));
+        });
+    });
+
+    if (roomLightboxClose) {
+        roomLightboxClose.addEventListener("click", closeRoomLightbox);
+    }
+
+    if (roomLightboxPrev) {
+        roomLightboxPrev.addEventListener("click", function () {
+            showRoomLightbox(roomLightboxIndex - 1);
+        });
+    }
+
+    if (roomLightboxNext) {
+        roomLightboxNext.addEventListener("click", function () {
+            showRoomLightbox(roomLightboxIndex + 1);
+        });
+    }
+
+    if (roomLightbox) {
+        roomLightbox.addEventListener("click", function (event) {
+            if (event.target === roomLightbox) {
+                closeRoomLightbox();
+            }
+        });
+    }
+
+    document.addEventListener("keydown", function (event) {
+        if (!roomLightbox || roomLightbox.hidden) {
+            return;
+        }
+
+        if (event.key === "Escape") {
+            closeRoomLightbox();
+        } else if (event.key === "ArrowLeft") {
+            showRoomLightbox(roomLightboxIndex - 1);
+        } else if (event.key === "ArrowRight") {
+            showRoomLightbox(roomLightboxIndex + 1);
+        }
+    });
+
     const bookingForm = document.getElementById("bookingSearchForm");
     const checkinInput = document.getElementById("checkin");
     const checkoutInput = document.getElementById("checkout");

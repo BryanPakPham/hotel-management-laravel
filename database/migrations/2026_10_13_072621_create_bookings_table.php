@@ -13,6 +13,22 @@ return new class extends Migration
     {
         Schema::create('bookings', function (Blueprint $table) {
             $table->id();
+            $table->string('booking_code')->unique();
+            $table->foreignId('user_id')->constrained('users')->cascadeOnDelete();
+            $table->foreignId('created_by')->nullable()->constrained('users')->nullOnDelete();
+            $table->string('guest_name');
+            $table->string('guest_phone', 30);
+            $table->string('guest_email');
+            $table->text('note')->nullable();
+            $table->date('check_in_date');
+            $table->date('check_out_date');
+            $table->unsignedSmallInteger('adults')->default(1);
+            $table->unsignedSmallInteger('children')->default(0);
+            $table->enum('status', ['pending', 'confirmed', 'checked_in', 'completed', 'cancelled'])->default('pending');
+            $table->decimal('total_amount', 12, 2)->default(0);
+            $table->decimal('deposit_amount', 12, 2)->default(0);
+            $table->text('cancellation_reason')->nullable();
+            $table->timestamp('cancelled_at')->nullable();
             $table->timestamps();
         });
     }

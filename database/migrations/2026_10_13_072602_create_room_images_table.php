@@ -13,6 +13,10 @@ return new class extends Migration
     {
         Schema::create('room_images', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('room_type_id')->constrained('room_types')->cascadeOnDelete();
+            $table->string('path');
+            $table->boolean('is_primary')->default(false);
+            $table->unsignedSmallInteger('sort_order')->default(0);
             $table->timestamps();
         });
     }

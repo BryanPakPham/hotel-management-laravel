@@ -13,6 +13,11 @@ return new class extends Migration
     {
         Schema::create('booking_rooms', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('booking_id')->constrained('bookings')->cascadeOnDelete();
+            $table->foreignId('room_type_id')->constrained('room_types')->restrictOnDelete();
+            $table->foreignId('room_id')->constrained('rooms')->restrictOnDelete();
+            $table->decimal('price_per_night', 12, 2);
+            $table->unique(['booking_id', 'room_id']);
             $table->timestamps();
         });
     }
