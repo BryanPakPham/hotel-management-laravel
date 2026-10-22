@@ -6,7 +6,8 @@ use App\Http\Controllers\Customer\BookingController;
 use App\Http\Controllers\Customer\HomeController;
 use App\Http\Controllers\Customer\RoomController;
 use App\Http\Controllers\Receptionist\BookingController as ReceptionistBookingController;
-use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Receptionist\StayController as ReceptionistStayController;
+use App\Http\Controllers\Receptionist\ServiceController as ReceptionistServiceController;
 
 // Trang chủ và phòng có thể xem trước khi đăng nhập.
 Route::get('/', [HomeController::class, 'index'])->name('home');
@@ -46,6 +47,28 @@ Route::middleware(['auth', 'role:receptionist'])
             ReceptionistBookingController::class,
             'confirm'
         ])->name('bookings.confirm');
+
+        Route::get('/stays', [ReceptionistStayController::class, 'index'])
+            ->name('stays.index');
+
+        Route::post('/stays/{id}/check-in', [ReceptionistStayController::class, 'checkIn'])
+            ->name('stays.checkIn');
+
+        Route::post('/stays/{id}/check-out', [ReceptionistStayController::class, 'checkOut'])
+            ->name('stays.checkOut');
+
+        Route::get('/services', [ReceptionistServiceController::class, 'index'])
+            ->name('services.index');
+
+        Route::get('/services', [
+            ReceptionistServiceController::class,
+            'index'
+        ])->name('services.index');
+
+        Route::post('/services', [
+            ReceptionistServiceController::class,
+            'store'
+        ])->name('services.store');
     });
 
 // Khu vực Khách hàng
@@ -68,4 +91,3 @@ Route::middleware(['auth', 'role:customer'])
         Route::get('/bookings/{booking}', [BookingController::class, 'show'])
             ->name('bookings.show');
     });
-
