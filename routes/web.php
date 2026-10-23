@@ -8,6 +8,7 @@ use App\Http\Controllers\Customer\RoomController;
 use App\Http\Controllers\Receptionist\BookingController as ReceptionistBookingController;
 use App\Http\Controllers\Receptionist\StayController as ReceptionistStayController;
 use App\Http\Controllers\Receptionist\ServiceController as ReceptionistServiceController;
+use App\Http\Controllers\Receptionist\InvoiceController as ReceptionistInvoiceController;
 
 // Trang chủ và phòng có thể xem trước khi đăng nhập.
 Route::get('/', [HomeController::class, 'index'])->name('home');
@@ -69,6 +70,26 @@ Route::middleware(['auth', 'role:receptionist'])
             ReceptionistServiceController::class,
             'store'
         ])->name('services.store');
+
+        Route::get('/invoices', [
+            ReceptionistInvoiceController::class,
+            'index'
+        ])->name('invoices.index');
+
+        Route::post('/invoices', [
+            ReceptionistInvoiceController::class,
+            'store'
+        ])->name('invoices.store');
+
+        Route::get('/invoices/{id}', [
+            ReceptionistInvoiceController::class,
+            'show'
+        ])->name('invoices.show');
+
+        Route::post('/invoices/{id}/payments', [
+            ReceptionistInvoiceController::class,
+            'storePayment'
+        ])->name('invoices.payments.store');
     });
 
 // Khu vực Khách hàng
@@ -91,3 +112,12 @@ Route::middleware(['auth', 'role:customer'])
         Route::get('/bookings/{booking}', [BookingController::class, 'show'])
             ->name('bookings.show');
     });
+Route::get('/test-bookings', [
+    ReceptionistBookingController::class,
+    'index'
+])->name('test.bookings.index');
+
+Route::get('/test-bookings/{id}', [
+    ReceptionistBookingController::class,
+    'show'
+])->whereNumber('id')->name('test.bookings.show');

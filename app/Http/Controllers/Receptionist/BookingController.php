@@ -34,6 +34,7 @@ class BookingController extends Controller
         );
     }
 
+    // Chi tiet don dat phong va danh sach phong da dat
     public function show($id)
     {
         $dat = DB::table('bookings')
@@ -58,9 +59,47 @@ class BookingController extends Controller
             abort(404, 'Khong tim thay don dat phong.');
         }
 
-        return view('receptionist.bookings.show', compact('dat'));
+        // Lay tat ca cac phong thuoc don dat
+        $cacPhong = DB::table('booking_rooms')
+            ->join(
+                'room_types',
+                'booking_rooms.room_type_id',
+                '=',
+                'room_types.id'
+            )
+            ->leftJoin(
+                'rooms',
+                'booking_rooms.room_id',
+                '=',
+                'rooms.id'
+            )
+            ->leftJoin(
+                'stay_records',
+                'booking_rooms.id',
+                '=',
+                'stay_records.booking_room_id'
+            )
+            ->where('booking_rooms.booking_id', $dat->id)
+            ->select(
+                'booking_rooms.id as booking_room_id',
+                'booking_rooms.price_per_night',
+                'room_types.name as room_type_name',
+                'rooms.room_number',
+                'rooms.status as room_status',
+                'stay_records.actual_check_in',
+                'stay_records.actual_check_out'
+            )
+            ->orderBy('booking_rooms.id')
+            ->get();
+
+        return view(
+            'receptionist.bookings.show',
+            compact('dat', 'cacPhong')
+        );
     }
-     public function confirm($id)
+
+    // Xac nhan don dat phong
+    public function confirm($id)
     {
         $dat = DB::table('bookings')
             ->where('id', $id)
