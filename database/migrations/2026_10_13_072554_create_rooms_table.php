@@ -1,3 +1,4 @@
+
 <?php
 
 use Illuminate\Database\Migrations\Migration;
@@ -6,25 +7,31 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
-    /**
-     * Run the migrations.
-     */
     public function up(): void
     {
         Schema::create('rooms', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('room_type_id')->constrained('room_types')->cascadeOnDelete();
-            $table->string('room_number')->unique();
-            $table->unsignedSmallInteger('floor')->nullable();
-            $table->enum('status', ['available', 'occupied', 'maintenance'])->default('available');
-            $table->text('note')->nullable();
+
+            $table->foreignId('room_type_id')
+                ->constrained('room_types')
+                ->restrictOnDelete();
+
+            $table->string('room_number', 10)->unique();
+            $table->unsignedTinyInteger('floor');
+
+            $table->enum('status', [
+                'available',
+                'occupied',
+                'cleaning',
+                'maintenance',
+            ])->default('available');
+
+            $table->string('note', 255)->nullable();
+
             $table->timestamps();
         });
     }
 
-    /**
-     * Reverse the migrations.
-     */
     public function down(): void
     {
         Schema::dropIfExists('rooms');

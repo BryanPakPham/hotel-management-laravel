@@ -76,8 +76,8 @@
                     </ul>
 
                     <div class="header-actions">
-                        <!-- TODO: Thay bằng route đăng nhập thực tế khi đã xác định -->
-                        <a href="{{ auth()->check() ? route('customer.dashboard') : url('/login') }}" class="btn btn-login">
+                        <a href="{{ auth()->check() ? route('customer.dashboard') : url('/login') }}"
+                            title="Chức năng đang được phát triển">
                             <i class="bi bi-person me-1"></i>
                             Đăng nhập
                         </a>
@@ -121,96 +121,96 @@
         <div class="container">
 
             @hasSection('search')
-            @yield('search')
+                @yield('search')
             @else
-            <form action="{{ route('rooms.index') }}" method="GET" class="booking-form" id="bookingSearchForm">
+                <form action="{{ route('rooms.index') }}" method="GET" class="booking-form" id="bookingSearchForm">
 
-                <div class="booking-field booking-destination">
-                    <label for="destination">
-                        <i class="bi bi-geo-alt"></i>
-                        Điểm đến
-                    </label>
-                    <select name="destination" id="destination" class="form-select">
-                        <option value="nha-trang">Vinpearl Nha Trang</option>
-                        <option value="phu-quoc">Vinpearl Phú Quốc</option>
-                        <option value="da-nang">Vinpearl Đà Nẵng</option>
-                        <option value="nam-hoi-an">Vinpearl Nam Hội An</option>
-                    </select>
-                </div>
+                    <div class="booking-field booking-destination">
+                        <label for="destination">
+                            <i class="bi bi-geo-alt"></i>
+                            Điểm đến
+                        </label>
+                        <select name="destination" id="destination" class="form-select">
+                            <option value="nha-trang">Vinpearl Nha Trang</option>
+                            <option value="phu-quoc">Vinpearl Phú Quốc</option>
+                            <option value="da-nang">Vinpearl Đà Nẵng</option>
+                            <option value="nam-hoi-an">Vinpearl Nam Hội An</option>
+                        </select>
+                    </div>
 
-                <div class="booking-field">
-                    <label for="checkin">
-                        <i class="bi bi-calendar-check"></i>
-                        Nhận phòng
-                    </label>
+                    <div class="booking-field">
+                        <label for="checkin">
+                            <i class="bi bi-calendar-check"></i>
+                            Nhận phòng
+                        </label>
 
-                    <input type="date" name="checkin" id="checkin" class="form-control" required>
-                </div>
+                        <input type="date" name="checkin" id="checkin" class="form-control" required>
+                    </div>
 
-                <div class="booking-field">
-                    <label for="checkout">
-                        <i class="bi bi-calendar2-check"></i>
-                        Trả phòng
-                    </label>
+                    <div class="booking-field">
+                        <label for="checkout">
+                            <i class="bi bi-calendar2-check"></i>
+                            Trả phòng
+                        </label>
 
-                    <input type="date" name="checkout" id="checkout" class="form-control" required>
-                </div>
+                        <input type="date" name="checkout" id="checkout" class="form-control" required>
+                    </div>
 
-                <div class="booking-field booking-guests">
-                    <label for="adults">
-                        <i class="bi bi-people"></i>
-                        Người lớn
-                    </label>
+                    <div class="booking-field booking-guests">
+                        <label for="adults">
+                            <i class="bi bi-people"></i>
+                            Người lớn
+                        </label>
 
-                    <select name="adults" id="adults" class="form-select">
-                        <option value="1">1 người</option>
-                        <option value="2" selected>2 người</option>
-                        <option value="3">3 người</option>
-                        <option value="4">4 người</option>
-                        <option value="5">5 người</option>
-                        <option value="6">6 người</option>
-                    </select>
-                </div>
+                        <select name="adults" id="adults" class="form-select">
+                            <option value="1">1 người</option>
+                            <option value="2" selected>2 người</option>
+                            <option value="3">3 người</option>
+                            <option value="4">4 người</option>
+                            <option value="5">5 người</option>
+                            <option value="6">6 người</option>
+                        </select>
+                    </div>
 
-                <div class="booking-field booking-guests">
-                    <label for="children">
-                        <i class="bi bi-person-hearts"></i>
-                        Trẻ em
-                    </label>
+                    <div class="booking-field booking-guests">
+                        <label for="children">
+                            <i class="bi bi-person-hearts"></i>
+                            Trẻ em
+                        </label>
 
-                    <select name="children" id="children" class="form-select">
-                        <option value="0" selected>0 trẻ em</option>
-                        <option value="1">1 trẻ em</option>
-                        <option value="2">2 trẻ em</option>
-                        <option value="3">3 trẻ em</option>
-                        <option value="4">4 trẻ em</option>
-                    </select>
-                </div>
+                        <select name="children" id="children" class="form-select">
+                            <option value="0" selected>0 trẻ em</option>
+                            <option value="1">1 trẻ em</option>
+                            <option value="2">2 trẻ em</option>
+                            <option value="3">3 trẻ em</option>
+                            <option value="4">4 trẻ em</option>
+                        </select>
+                    </div>
 
-                <div class="booking-field booking-guests">
-                    <label for="rooms">
-                        <i class="bi bi-door-open"></i>
-                        Số phòng
-                    </label>
+                    <div class="booking-field booking-guests">
+                        <label for="rooms">
+                            <i class="bi bi-door-open"></i>
+                            Số phòng
+                        </label>
 
-                    <select name="rooms" id="rooms" class="form-select">
-                        <option value="1" selected>1 phòng</option>
-                        <option value="2">2 phòng</option>
-                        <option value="3">3 phòng</option>
-                        <option value="4">4 phòng</option>
-                    </select>
-                </div>
+                        <select name="rooms" id="rooms" class="form-select">
+                            <option value="1" selected>1 phòng</option>
+                            <option value="2">2 phòng</option>
+                            <option value="3">3 phòng</option>
+                            <option value="4">4 phòng</option>
+                        </select>
+                    </div>
 
-                <div class="booking-submit">
-                    <button type="submit" class="btn btn-search">
-                        <i class="bi bi-search me-2"></i>
-                        Tìm phòng
-                    </button>
-                </div>
+                    <div class="booking-submit">
+                        <button type="submit" class="btn btn-search">
+                            <i class="bi bi-search me-2"></i>
+                            Tìm phòng
+                        </button>
+                    </div>
 
-                <p class="booking-message" id="bookingMessage" role="alert" aria-live="polite"></p>
+                    <p class="booking-message" id="bookingMessage" role="alert" aria-live="polite"></p>
 
-            </form>
+                </form>
             @endif
 
         </div>
