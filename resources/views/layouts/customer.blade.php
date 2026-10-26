@@ -76,11 +76,28 @@
                     </ul>
 
                     <div class="header-actions">
-                        <a href="{{ auth()->check() ? route('customer.dashboard') : url('/login') }}"
-                            title="Chức năng đang được phát triển">
-                            <i class="bi bi-person me-1"></i>
-                            Đăng nhập
-                        </a>
+                        @guest
+                            <a href="{{ route('login') }}">
+                                <i class="bi bi-person me-1"></i>
+                                Đăng nhập
+                            </a>
+
+                            <a href="{{ route('register') }}" class="ms-3">
+                                <i class="bi bi-person-plus me-1"></i>
+                                Đăng ký
+                            </a>
+                        @else
+                            <span class="me-3">
+                                Xin chào, {{ auth()->user()->name }}
+                            </span>
+
+                            <form action="{{ route('logout') }}" method="POST" class="d-inline">
+                                @csrf
+                                <button type="submit" class="btn btn-link p-0 text-decoration-none">
+                                    Đăng xuất
+                                </button>
+                            </form>
+                        @endguest
                     </div>
 
                 </div>

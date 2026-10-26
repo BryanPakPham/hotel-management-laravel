@@ -7,6 +7,7 @@ use App\Http\Controllers\Admin\RoomTypeController as AdminRoomTypeController;
 use App\Http\Controllers\Admin\BookingController as AdminBookingController;
 use App\Http\Controllers\Admin\AmenityController as AmenityController;
 use App\Http\Controllers\Admin\ServiceController as ServiceController;
+use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\Customer\BookingController;
 use App\Http\Controllers\Customer\HomeController;
 use App\Http\Controllers\Customer\RoomController;
@@ -34,6 +35,13 @@ Route::post('/login', [LoginController::class, 'login'])
 Route::post('/logout', [LoginController::class, 'logout'])
     ->middleware('auth')
     ->name('logout');
+
+// Đăng ký tài khoản khách hàng
+Route::get('/register', [RegisterController::class, 'showRegister'])
+    ->name('register');
+
+Route::post('/register', [RegisterController::class, 'register'])
+    ->name('register.store');
 
 
 // Khu vực Admin
