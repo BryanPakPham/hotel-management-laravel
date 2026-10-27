@@ -21,12 +21,12 @@ class Booking extends Model
         'note',
         'check_in_date',
         'check_out_date',
-        'adults',
-        'children',
+        'num_adults',
+        'num_children',
         'status',
         'total_amount',
         'deposit_amount',
-        'cancellation_reason',
+        'cancel_reason',
         'cancelled_at',
     ];
 
@@ -36,8 +36,8 @@ class Booking extends Model
             'check_in_date' => 'date',
             'check_out_date' => 'date',
             'cancelled_at' => 'datetime',
-            'adults' => 'integer',
-            'children' => 'integer',
+            'num_adults' => 'integer',
+            'num_children' => 'integer',
             'total_amount' => 'decimal:2',
             'deposit_amount' => 'decimal:2',
         ];

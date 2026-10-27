@@ -196,13 +196,13 @@
 .back-link { align-items: center; gap: 8px; color: var(--navy); font-size: 14px; }
 .back-link:hover { color: #9b793c; }
 .booking-list { display: grid; gap: 14px; }
-.booking-card { display: flex; justify-content: space-between; gap: 20px; padding: 24px 28px; border: 1px solid var(--border-color); color: inherit; transition: border-color .25s ease, box-shadow .25s ease, transform .25s ease; }
+.booking-card { display: flex; justify-content: space-between; gap: 20px; padding: 24px 28px; border: 1px solid var(--border-color); border-radius: 18px; background: linear-gradient(110deg, #fff 0%, #fbfaf7 100%); box-shadow: 0 8px 24px rgba(18,48,74,.05); color: inherit; transition: border-color .25s ease, box-shadow .25s ease, transform .25s ease; }
 .booking-card:hover { border-color: var(--champagne); box-shadow: 0 10px 24px rgba(18,48,74,.08); transform: translateX(4px); }
 .booking-code { color: #9b793c; font-size: 12px; font-weight: 700; letter-spacing: 1px; }
 .booking-card h2 { margin: 5px 0; color: var(--navy); font: 400 22px Georgia, serif; }
 .booking-card p { margin: 0; color: var(--muted-color); font-size: 14px; }
 .booking-card__side { display: flex; align-items: center; gap: 18px; color: var(--navy); }
-.status { display: inline-block; padding: 4px 10px; color: #84652d; font-size: 12px; background: #f7efdE; }
+.status { display: inline-block; padding: 7px 12px; border-radius: 999px; color: #84652d; font-size: 12px; font-weight: 700; background: #f7efdE; }
 .status--cancelled { color: #9c3c3c; background: #fcecec; }
 .status--completed { color: #36735c; background: #e8f5ef; }
 .booking-layout { display: grid; grid-template-columns: 1.25fr .75fr; gap: 30px; align-items: start; }
@@ -356,7 +356,47 @@ select:focus-visible {
 .header-actions {
     display: flex;
     align-items: center;
-    gap: 10px;
+    gap: 8px;
+    white-space: nowrap;
+}
+
+.header-actions > a,
+.header-logout {
+    align-items: center;
+    border: 1px solid transparent;
+    border-radius: 999px;
+    display: inline-flex;
+    gap: 5px;
+    min-height: 38px;
+    padding: 8px 13px;
+    text-decoration: none;
+    transition: background-color .25s ease, border-color .25s ease, color .25s ease, transform .25s ease;
+}
+
+.header-actions > a:hover,
+.header-actions > a:focus-visible {
+    background: #f7f1e7;
+    border-color: #e7d6b8;
+    color: var(--navy);
+    transform: translateY(-1px);
+}
+
+.header-logout {
+    background: var(--navy);
+    border-color: var(--navy);
+    color: #fff;
+    cursor: pointer;
+    font: inherit;
+    font-size: 13px;
+    font-weight: 600;
+}
+
+.header-logout:hover,
+.header-logout:focus-visible {
+    background: #9b793c;
+    border-color: #9b793c;
+    color: #fff;
+    transform: translateY(-1px);
 }
 
 .btn-login {
@@ -1056,6 +1096,167 @@ select:focus-visible {
 @media (prefers-reduced-motion: reduce) {
     html {
         scroll-behavior: auto;
+    }
+
+    .header-logout {
+        border: 0;
+        background: transparent;
+        color: inherit;
+        font: inherit;
+        padding: 0;
+    }
+
+    .header-logout:hover {
+        color: var(--brand, #b9955a);
+    }
+
+    .service-grid {
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 22px;
+    }
+
+    .service-card,
+    .account-card {
+        background: #fff;
+        border: 1px solid rgba(17, 52, 75, .1);
+        border-radius: 22px;
+        box-shadow: 0 16px 38px rgba(17, 52, 75, .08);
+    }
+
+    .service-card {
+        display: flex;
+        gap: 18px;
+        padding: 28px;
+        transition: transform .25s ease, box-shadow .25s ease;
+    }
+
+    .service-card:hover {
+        transform: translateY(-6px);
+        box-shadow: 0 22px 44px rgba(17, 52, 75, .14);
+    }
+
+    .service-card__icon {
+        align-items: center;
+        background: #f5ead7;
+        border-radius: 15px;
+        color: #a77a3b;
+        display: flex;
+        flex: 0 0 52px;
+        font-size: 24px;
+        height: 52px;
+        justify-content: center;
+    }
+
+    .service-card h2 {
+        color: #12304a;
+        font-size: 20px;
+        margin: 0 0 8px;
+    }
+
+    .service-card p {
+        color: #6f7c85;
+        line-height: 1.65;
+        margin-bottom: 14px;
+    }
+
+    .service-card strong {
+        color: #a77a3b;
+    }
+
+    .service-card small {
+        color: #89939a;
+        font-weight: 400;
+    }
+
+    .account-layout {
+        display: grid;
+        grid-template-columns: minmax(220px, .7fr) minmax(0, 1.5fr);
+        gap: 24px;
+        max-width: 980px;
+        margin: 0 auto;
+    }
+
+    .account-card {
+        padding: 30px;
+    }
+
+    .account-card--profile {
+        align-items: center;
+        display: flex;
+        flex-direction: column;
+        text-align: center;
+    }
+
+    .account-avatar {
+        align-items: center;
+        background: linear-gradient(135deg, #12304a, #2d6689);
+        border-radius: 50%;
+        color: #fff;
+        display: flex;
+        font-size: 34px;
+        font-weight: 700;
+        height: 82px;
+        justify-content: center;
+        margin-bottom: 16px;
+        width: 82px;
+    }
+
+    .account-card h2 {
+        color: #12304a;
+        font-size: 22px;
+        margin-bottom: 6px;
+    }
+
+    .account-card--profile p {
+        color: #77838b;
+        margin-bottom: 16px;
+    }
+
+    .account-badge {
+        background: #eef6f4;
+        border-radius: 999px;
+        color: #3a776c;
+        font-size: 13px;
+        padding: 8px 14px;
+    }
+
+    .account-link {
+        color: #a77a3b;
+        font-weight: 600;
+        margin-top: auto;
+        padding-top: 30px;
+        text-decoration: none;
+    }
+
+    .booking-detail-actions {
+        align-items: center;
+        display: flex;
+        justify-content: space-between;
+        gap: 16px;
+        margin-top: 24px;
+    }
+
+    @media (max-width: 900px) {
+        .service-grid {
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+        }
+    }
+
+    @media (max-width: 640px) {
+        .service-grid,
+        .account-layout {
+            grid-template-columns: 1fr;
+        }
+
+        .service-card {
+            padding: 22px;
+        }
+
+        .booking-detail-actions {
+            align-items: stretch;
+            flex-direction: column;
+        }
     }
 
     *,

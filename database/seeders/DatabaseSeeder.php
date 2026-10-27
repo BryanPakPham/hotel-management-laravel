@@ -4,6 +4,7 @@ namespace Database\Seeders;
 
 use App\Models\Amenity;
 use App\Models\Room;
+use App\Models\RoomImage;
 use App\Models\RoomType;
 use App\Models\User;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
@@ -106,6 +107,22 @@ class DatabaseSeeder extends Seeder
                     ]
                 );
             }
+
         }
+
+        RoomType::query()->each(function (RoomType $roomType): void {
+            foreach (range(1, 4) as $imageNumber) {
+                RoomImage::updateOrCreate(
+                    [
+                        'room_type_id' => $roomType->id,
+                        'path' => 'room-images/'.$roomType->slug.'-'.$imageNumber.'.jpg',
+                    ],
+                    [
+                        'is_primary' => $imageNumber === 1,
+                        'sort_order' => $imageNumber,
+                    ]
+                );
+            }
+        });
     }
 }

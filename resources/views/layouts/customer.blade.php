@@ -57,7 +57,7 @@
                         </li>
 
                         <li class="nav-item">
-                            <a class="nav-link" href="#services">
+                            <a class="nav-link" href="{{ auth()->check() ? route('customer.services.index') : route('rooms.index') }}">
                                 Dịch vụ
                             </a>
                         </li>
@@ -76,11 +76,25 @@
                     </ul>
 
                     <div class="header-actions">
-                        <a href="{{ auth()->check() ? route('customer.dashboard') : url('/login') }}"
-                            title="Chức năng đang được phát triển">
-                            <i class="bi bi-person me-1"></i>
-                            Đăng nhập
-                        </a>
+                        @auth
+                            <a href="{{ route('customer.account.edit') }}">
+                                <i class="bi bi-person me-1"></i>
+                                {{ auth()->user()->name }}
+                            </a>
+                            <a href="{{ route('customer.bookings.index') }}">
+                                <i class="bi bi-journal-check me-1"></i>
+                                Đặt phòng
+                            </a>
+                            <form method="POST" action="{{ route('logout') }}" class="d-inline">
+                                @csrf
+                                <button type="submit" class="header-logout">Đăng xuất</button>
+                            </form>
+                        @else
+                            <a href="{{ route('login') }}">
+                                <i class="bi bi-person me-1"></i>
+                                Đăng nhập
+                            </a>
+                        @endauth
                     </div>
 
                 </div>

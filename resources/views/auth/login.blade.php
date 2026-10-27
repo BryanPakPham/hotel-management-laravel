@@ -58,7 +58,7 @@
             </div>
 
             <!-- Hiển thị thông báo lỗi -->
-            @if ($errors->any())
+            @if (isset($errors) && $errors->any())
                 <div class="alert alert-danger">
                     @foreach ($errors->all() as $error)
                         <div>{{ $error }}</div>

@@ -1,7 +1,9 @@
 <?php
 
 namespace App\Http\Controllers\Auth;
+
 use App\Http\Controllers\Controller;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -14,7 +16,7 @@ class LoginController extends Controller
     }
 
     // Xử lý đăng nhập
-    public function login(Request $request)
+    public function login(Request $request): RedirectResponse
     {
         $credentials = $request->validate([
             'email' => 'required|email',
@@ -26,7 +28,7 @@ class LoginController extends Controller
 
             $user = Auth::user();
 
-            if (!$user->is_active) {
+            if (! $user->is_active) {
                 Auth::logout();
 
                 return back()->withErrors([
@@ -43,7 +45,7 @@ class LoginController extends Controller
             }
 
             if ($user->role == 'customer') {
-                return redirect()->route('customer.dashboard');
+                return redirect()->route('home');
             }
 
             Auth::logout();
@@ -54,12 +56,12 @@ class LoginController extends Controller
         }
 
         return back()->withErrors([
-            'email' => 'Email hoặc mật khẩu không chính xác.',
+            'email' => 'Đăng nhập thất bại: Email hoặc mật khẩu không chính xác.',
         ])->onlyInput('email');
     }
 
     // Đăng xuất
-    public function logout(Request $request)
+    public function logout(Request $request): RedirectResponse
     {
         Auth::logout();
 
@@ -69,5 +71,3 @@ class LoginController extends Controller
         return redirect()->route('home');
     }
 }
-
-

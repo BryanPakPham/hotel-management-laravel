@@ -10,7 +10,7 @@
         <div class="room-detail__top">
             <div class="room-detail__gallery">
                 <div class="room-detail__gallery-grid">
-                    @for ($imageIndex = 0; $imageIndex < 5; $imageIndex++)
+                    @for ($imageIndex = 0; $imageIndex < 4; $imageIndex++)
                         @php($image=$roomType->images->get($imageIndex))
                         <button type="button" class="room-detail__gallery-item {{ $imageIndex === 0 ? 'room-detail__gallery-item--large' : '' }}" data-room-image="{{ $image ? asset('storage/' . $image->path) : '' }}" data-room-index="{{ $image ? $imageIndex : '' }}" aria-label="Xem ảnh {{ $imageIndex + 1 }}">
                             @if ($image)
@@ -18,8 +18,8 @@
                             @else
                             <span class="room-card__placeholder"><i class="bi bi-building"></i></span>
                             @endif
-                            @if ($imageIndex === 4 && $roomType->images->count() > 5)
-                            <span class="room-detail__more-images">+{{ $roomType->images->count() - 5 }} ảnh</span>
+                            @if ($imageIndex === 3 && $roomType->images->count() > 4)
+                            <span class="room-detail__more-images">+{{ $roomType->images->count() - 4 }} ảnh</span>
                             @endif
                         </button>
                         @endfor

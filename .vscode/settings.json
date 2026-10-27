@@ -1,0 +1,11 @@
+{
+    "files.exclude": {
+        "**/storage/framework/views/**": true
+    },
+    "search.exclude": {
+        "**/storage/framework/views/**": true
+    },
+    "intelephense.files.exclude": [
+        "**/storage/framework/views/**"
+    ]
+}

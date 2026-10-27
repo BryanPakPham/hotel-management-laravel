@@ -5,11 +5,13 @@ namespace App\Http\Controllers\Customer;
 use App\Http\Controllers\Controller;
 use App\Models\Booking;
 use App\Models\RoomType;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 use Illuminate\Validation\ValidationException;
+use Symfony\Component\HttpFoundation\Response;
 
 class BookingController extends Controller
 {
@@ -110,8 +112,8 @@ class BookingController extends Controller
                 'note' => $validated['note'] ?? null,
                 'check_in_date' => $validated['checkin'],
                 'check_out_date' => $validated['checkout'],
-                'adults' => $validated['adults'],
-                'children' => $validated['children'] ?? 0,
+                'num_adults' => $validated['adults'],
+                'num_children' => $validated['children'] ?? 0,
                 'status' => 'pending',
                 'total_amount' => $total,
             ]);
@@ -131,9 +133,31 @@ class BookingController extends Controller
 
     public function show(Request $request, Booking $booking)
     {
-        abort_unless($booking->user_id === $request->user()->id, 403);
+        abort_unless($booking->getAttribute('user_id') === $request->user()->id, 403);
         $booking->load(['bookingRooms.roomType.amenities', 'bookingRooms.room']);
 
         return view('customer.bookings.show', compact('booking'));
+    }
+
+    public function cancel(Request $request, Booking $booking): RedirectResponse
+    {
+        abort_unless($booking->getAttribute('user_id') === $request->user()->id, Response::HTTP_FORBIDDEN);
+
+        if (! \in_array($booking->getAttribute('status'), ['pending', 'confirmed'], true)) {
+            return back()->withErrors(['booking' => 'Đặt phòng này không thể hủy ở trạng thái hiện tại.']);
+        }
+
+        if ($booking->check_in_date->toDateString() <= Carbon::today()->toDateString()) {
+            return back()->withErrors(['booking' => 'Không thể hủy đặt phòng sau ngày nhận phòng.']);
+        }
+
+        $booking->update([
+            'status' => 'cancelled',
+            'cancelled_at' => now(),
+            'cancel_reason' => 'Khách hàng hủy đặt phòng.',
+        ]);
+
+        return redirect()->route('customer.bookings.show', $booking)
+            ->with('success', 'Đặt phòng đã được hủy thành công.');
     }
 }
