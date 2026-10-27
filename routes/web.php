@@ -8,6 +8,7 @@ use App\Http\Controllers\Admin\RoomTypeController as AdminRoomTypeController;
 use App\Http\Controllers\Admin\ServiceController;
 use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\Auth\LoginController;
+use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\Customer\AccountController;
 use App\Http\Controllers\Customer\BookingController;
 use App\Http\Controllers\Customer\HomeController;
@@ -25,124 +26,57 @@ Route::get('/rooms', [RoomController::class, 'index'])->name('rooms.index');
 Route::get('/rooms/{roomType:slug}', [RoomController::class, 'show'])->name('rooms.show');
 
 // Đăng nhập
-Route::get('/login', [LoginController::class, 'showLogin'])
-    ->name('login');
-
-Route::post('/login', [LoginController::class, 'login'])
-    ->name('login.submit');
+Route::get('/login', [LoginController::class, 'showLogin'])->name('login');
+Route::post('/login', [LoginController::class, 'login'])->name('login.submit');
 
 // Đăng xuất
 Route::post('/logout', [LoginController::class, 'logout'])
     ->middleware('auth')
     ->name('logout');
 
+// Đăng ký tài khoản khách hàng
+Route::get('/register', [RegisterController::class, 'showRegister'])->name('register');
+Route::post('/register', [RegisterController::class, 'register'])->name('register.store');
+
 // Khu vực Admin
 Route::middleware(['auth', 'role:admin'])
     ->prefix('admin')
     ->name('admin.')
     ->group(function () {
-        Route::get('/dashboard', [AdminDashboardController::class, 'index'])
-            ->name('dashboard');
-
-        Route::get('/rooms', [AdminRoomController::class, 'index'])
-            ->name('rooms.index');
-
-        Route::resource('rooms', AdminRoomController::class)
-            ->except(['index', 'show']);
-
+        Route::get('/dashboard', [AdminDashboardController::class, 'index'])->name('dashboard');
+        Route::get('/rooms', [AdminRoomController::class, 'index'])->name('rooms.index');
+        Route::resource('rooms', AdminRoomController::class)->except(['index', 'show']);
         // Quản lý loại phòng
         Route::resource('room-types', AdminRoomTypeController::class)
             ->except(['show'])
             ->parameters(['room-types' => 'roomType']);
-
         // Quản lý đặt phòng
-        Route::get('/bookings', [AdminBookingController::class, 'index'])
-            ->name('bookings.index');
-        // chi tiết thông tin đặt phòng
-        Route::get('/bookings/{id}', [AdminBookingController::class, 'show'])
-            ->whereNumber('id')
-            ->name('bookings.show');
-        // xác nhận đặt phòng
-        Route::patch('/bookings/{id}/confirm', [
-            AdminBookingController::class,
-            'confirm',
-        ])->whereNumber('id')->name('bookings.confirm');
-        // hủy đặt phòng
-        Route::patch('/bookings/{id}/cancel', [
-            AdminBookingController::class,
-            'cancel',
-        ])->whereNumber('id')->name('bookings.cancel');
-
-        // quản lí khách hàng
-
-        Route::get('/users', [UserController::class, 'index'])
-            ->name('users.index');
-
-        Route::get('/users/{id}', [UserController::class, 'show'])
-            ->whereNumber('id')
-            ->name('users.show');
-
-        Route::get('/users/{id}/edit', [UserController::class, 'edit'])
-            ->whereNumber('id')
-            ->name('users.edit');
-
-        Route::put('/users/{id}', [UserController::class, 'update'])
-            ->whereNumber('id')
-            ->name('users.update');
-
-        Route::delete('/users/{id}', [UserController::class, 'destroy'])
-            ->whereNumber('id')
-            ->name('users.destroy');
-
-        Route::get('/users/create', [UserController::class, 'create'])
-            ->name('users.create');
-
-        Route::post('/users', [UserController::class, 'store'])
-            ->name('users.store');
-
+        Route::get('/bookings', [AdminBookingController::class, 'index'])->name('bookings.index');
+        Route::get('/bookings/{id}', [AdminBookingController::class, 'show'])->whereNumber('id')->name('bookings.show');
+        Route::patch('/bookings/{id}/confirm', [AdminBookingController::class, 'confirm'])->whereNumber('id')->name('bookings.confirm');
+        Route::patch('/bookings/{id}/cancel', [AdminBookingController::class, 'cancel'])->whereNumber('id')->name('bookings.cancel');
+        // Quản lí khách hàng
+        Route::get('/users', [UserController::class, 'index'])->name('users.index');
+        Route::get('/users/{id}', [UserController::class, 'show'])->whereNumber('id')->name('users.show');
+        Route::get('/users/{id}/edit', [UserController::class, 'edit'])->whereNumber('id')->name('users.edit');
+        Route::put('/users/{id}', [UserController::class, 'update'])->whereNumber('id')->name('users.update');
+        Route::delete('/users/{id}', [UserController::class, 'destroy'])->whereNumber('id')->name('users.destroy');
+        Route::get('/users/create', [UserController::class, 'create'])->name('users.create');
+        Route::post('/users', [UserController::class, 'store'])->name('users.store');
         // Quản lý tiện nghi
-        Route::get('/amenities', [AmenityController::class, 'index'])
-            ->name('amenities.index');
-
-        Route::get('/amenities/create', [AmenityController::class, 'create'])
-            ->name('amenities.create');
-
-        Route::post('/amenities', [AmenityController::class, 'store'])
-            ->name('amenities.store');
-
-        Route::get('/amenities/{id}/edit', [AmenityController::class, 'edit'])
-            ->whereNumber('id')
-            ->name('amenities.edit');
-
-        Route::put('/amenities/{id}', [AmenityController::class, 'update'])
-            ->whereNumber('id')
-            ->name('amenities.update');
-
-        Route::delete('/amenities/{id}', [AmenityController::class, 'destroy'])
-            ->whereNumber('id')
-            ->name('amenities.destroy');
-
+        Route::get('/amenities', [AmenityController::class, 'index'])->name('amenities.index');
+        Route::get('/amenities/create', [AmenityController::class, 'create'])->name('amenities.create');
+        Route::post('/amenities', [AmenityController::class, 'store'])->name('amenities.store');
+        Route::get('/amenities/{id}/edit', [AmenityController::class, 'edit'])->whereNumber('id')->name('amenities.edit');
+        Route::put('/amenities/{id}', [AmenityController::class, 'update'])->whereNumber('id')->name('amenities.update');
+        Route::delete('/amenities/{id}', [AmenityController::class, 'destroy'])->whereNumber('id')->name('amenities.destroy');
         // Quản lý dịch vụ
-        Route::get('/services', [ServiceController::class, 'index'])
-            ->name('services.index');
-
-        Route::get('/services/create', [ServiceController::class, 'create'])
-            ->name('services.create');
-
-        Route::post('/services', [ServiceController::class, 'store'])
-            ->name('services.store');
-
-        Route::get('/services/{id}/edit', [ServiceController::class, 'edit'])
-            ->whereNumber('id')
-            ->name('services.edit');
-
-        Route::put('/services/{id}', [ServiceController::class, 'update'])
-            ->whereNumber('id')
-            ->name('services.update');
-
-        Route::delete('/services/{id}', [ServiceController::class, 'destroy'])
-            ->whereNumber('id')
-            ->name('services.destroy');
+        Route::get('/services', [ServiceController::class, 'index'])->name('services.index');
+        Route::get('/services/create', [ServiceController::class, 'create'])->name('services.create');
+        Route::post('/services', [ServiceController::class, 'store'])->name('services.store');
+        Route::get('/services/{id}/edit', [ServiceController::class, 'edit'])->whereNumber('id')->name('services.edit');
+        Route::put('/services/{id}', [ServiceController::class, 'update'])->whereNumber('id')->name('services.update');
+        Route::delete('/services/{id}', [ServiceController::class, 'destroy'])->whereNumber('id')->name('services.destroy');
     });
 
 // Khu vực Lễ tân
@@ -150,63 +84,19 @@ Route::middleware(['auth', 'role:receptionist'])
     ->prefix('receptionist')
     ->name('receptionist.')
     ->group(function () {
-        Route::get('/dashboard', function () {
-            return view('receptionist.dashboard');
-        })->name('dashboard');
-
-        Route::get('/bookings', [
-            ReceptionistBookingController::class,
-            'index',
-        ])->name('bookings.index');
-
-        Route::get('/bookings/{id}', [
-            ReceptionistBookingController::class,
-            'show',
-        ])->name('bookings.show');
-
-        Route::post('/bookings/{id}/confirm', [
-            ReceptionistBookingController::class,
-            'confirm',
-        ])->name('bookings.confirm');
-
-        Route::get('/stays', [ReceptionistStayController::class, 'index'])
-            ->name('stays.index');
-
-        Route::post('/stays/{id}/check-in', [ReceptionistStayController::class, 'checkIn'])
-            ->name('stays.checkIn');
-
-        Route::post('/stays/{id}/check-out', [ReceptionistStayController::class, 'checkOut'])
-            ->name('stays.checkOut');
-
-        Route::get('/services', [
-            ReceptionistServiceController::class,
-            'index',
-        ])->name('services.index');
-
-        Route::post('/services', [
-            ReceptionistServiceController::class,
-            'store',
-        ])->name('services.store');
-
-        Route::get('/invoices', [
-            ReceptionistInvoiceController::class,
-            'index',
-        ])->name('invoices.index');
-
-        Route::post('/invoices', [
-            ReceptionistInvoiceController::class,
-            'store',
-        ])->name('invoices.store');
-
-        Route::get('/invoices/{id}', [
-            ReceptionistInvoiceController::class,
-            'show',
-        ])->name('invoices.show');
-
-        Route::post('/invoices/{id}/payments', [
-            ReceptionistInvoiceController::class,
-            'storePayment',
-        ])->name('invoices.payments.store');
+        Route::get('/dashboard', function () { return view('receptionist.dashboard'); })->name('dashboard');
+        Route::get('/bookings', [ReceptionistBookingController::class, 'index'])->name('bookings.index');
+        Route::get('/bookings/{id}', [ReceptionistBookingController::class, 'show'])->name('bookings.show');
+        Route::post('/bookings/{id}/confirm', [ReceptionistBookingController::class, 'confirm'])->name('bookings.confirm');
+        Route::get('/stays', [ReceptionistStayController::class, 'index'])->name('stays.index');
+        Route::post('/stays/{id}/check-in', [ReceptionistStayController::class, 'checkIn'])->name('stays.checkIn');
+        Route::post('/stays/{id}/check-out', [ReceptionistStayController::class, 'checkOut'])->name('stays.checkOut');
+        Route::get('/services', [ReceptionistServiceController::class, 'index'])->name('services.index');
+        Route::post('/services', [ReceptionistServiceController::class, 'store'])->name('services.store');
+        Route::get('/invoices', [ReceptionistInvoiceController::class, 'index'])->name('invoices.index');
+        Route::post('/invoices', [ReceptionistInvoiceController::class, 'store'])->name('invoices.store');
+        Route::get('/invoices/{id}', [ReceptionistInvoiceController::class, 'show'])->name('invoices.show');
+        Route::post('/invoices/{id}/payments', [ReceptionistInvoiceController::class, 'storePayment'])->name('invoices.payments.store');
     });
 
 // Khu vực Khách hàng
@@ -214,39 +104,16 @@ Route::middleware(['auth', 'role:customer'])
     ->prefix('customer')
     ->name('customer.')
     ->group(function () {
-        Route::get('/dashboard', [HomeController::class, 'index'])
-            ->name('dashboard');
-
-        Route::get('/bookings', [BookingController::class, 'index'])
-            ->name('bookings.index');
-
-        Route::get('/bookings/create', [BookingController::class, 'create'])
-            ->name('bookings.create');
-
-        Route::post('/bookings', [BookingController::class, 'store'])
-            ->name('bookings.store');
-
-        Route::get('/bookings/{booking}', [BookingController::class, 'show'])
-            ->name('bookings.show');
-
-        Route::patch('/bookings/{booking}/cancel', [BookingController::class, 'cancel'])
-            ->name('bookings.cancel');
-
-        Route::get('/services', [CustomerServiceController::class, 'index'])
-            ->name('services.index');
-
-        Route::get('/account', [AccountController::class, 'edit'])
-            ->name('account.edit');
-
-        Route::put('/account', [AccountController::class, 'update'])
-            ->name('account.update');
+        Route::get('/dashboard', [HomeController::class, 'index'])->name('dashboard');
+        Route::get('/bookings', [BookingController::class, 'index'])->name('bookings.index');
+        Route::get('/bookings/create', [BookingController::class, 'create'])->name('bookings.create');
+        Route::post('/bookings', [BookingController::class, 'store'])->name('bookings.store');
+        Route::get('/bookings/{booking}', [BookingController::class, 'show'])->name('bookings.show');
+        Route::patch('/bookings/{booking}/cancel', [BookingController::class, 'cancel'])->name('bookings.cancel');
+        Route::get('/services', [CustomerServiceController::class, 'index'])->name('services.index');
+        Route::get('/account', [AccountController::class, 'edit'])->name('account.edit');
+        Route::put('/account', [AccountController::class, 'update'])->name('account.update');
     });
-Route::get('/test-bookings', [
-    ReceptionistBookingController::class,
-    'index',
-])->name('test.bookings.index');
 
-Route::get('/test-bookings/{id}', [
-    ReceptionistBookingController::class,
-    'show',
-])->whereNumber('id')->name('test.bookings.show');
+Route::get('/test-bookings', [ReceptionistBookingController::class, 'index'])->name('test.bookings.index');
+Route::get('/test-bookings/{id}', [ReceptionistBookingController::class, 'show'])->whereNumber('id')->name('test.bookings.show');

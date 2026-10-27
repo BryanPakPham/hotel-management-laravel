@@ -77,20 +77,25 @@
 
                     <div class="header-actions">
                         @auth
-                            <a href="{{ route('customer.account.edit') }}">
-                                <i class="bi bi-person me-1"></i>
-                                {{ auth()->user()->name }}
-                            </a>
-                            <a href="{{ route('customer.bookings.index') }}">
-                                <i class="bi bi-journal-check me-1"></i>
+                            <a href="{{ route('customer.bookings.index') }}" title="Đặt phòng của bạn">
+                                <i class="bi bi-calendar-check me-1"></i>
                                 Đặt phòng
                             </a>
-                            <form method="POST" action="{{ route('logout') }}" class="d-inline">
+
+                            <a href="{{ route('customer.account.edit') }}" title="Tài khoản của bạn">
+                                <i class="bi bi-person-check me-1"></i>
+                                {{ auth()->user()->name }}
+                            </a>
+
+                            <form action="{{ route('logout') }}" method="POST" class="d-inline">
                                 @csrf
-                                <button type="submit" class="header-logout">Đăng xuất</button>
+                                <button type="submit" class="header-logout" title="Đăng xuất">
+                                    <i class="bi bi-box-arrow-right me-1"></i>
+                                    Đăng xuất
+                                </button>
                             </form>
                         @else
-                            <a href="{{ route('login') }}">
+                            <a href="{{ route('login') }}" title="Đăng nhập tài khoản">
                                 <i class="bi bi-person me-1"></i>
                                 Đăng nhập
                             </a>
