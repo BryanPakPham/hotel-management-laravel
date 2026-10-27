@@ -57,7 +57,8 @@
                         </li>
 
                         <li class="nav-item">
-                            <a class="nav-link" href="{{ auth()->check() ? route('customer.services.index') : route('rooms.index') }}">
+                            <a class="nav-link"
+                                href="{{ auth()->check() ? route('customer.services.index') : route('rooms.index') }}">
                                 Dịch vụ
                             </a>
                         </li>
@@ -98,6 +99,11 @@
                             <a href="{{ route('login') }}" title="Đăng nhập tài khoản">
                                 <i class="bi bi-person me-1"></i>
                                 Đăng nhập
+                            </a>
+
+                            <a href="{{ route('register') }}" class="ms-3" title="Đăng ký tài khoản">
+                                <i class="bi bi-person-plus me-1"></i>
+                                Đăng ký
                             </a>
                         @endauth
                     </div>
