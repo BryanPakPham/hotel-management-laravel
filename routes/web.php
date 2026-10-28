@@ -104,16 +104,31 @@ Route::middleware(['auth', 'role:customer'])
     ->prefix('customer')
     ->name('customer.')
     ->group(function () {
-        Route::get('/dashboard', [HomeController::class, 'index'])->name('dashboard');
-        Route::get('/bookings', [BookingController::class, 'index'])->name('bookings.index');
-        Route::get('/bookings/create', [BookingController::class, 'create'])->name('bookings.create');
-        Route::post('/bookings', [BookingController::class, 'store'])->name('bookings.store');
-        Route::get('/bookings/{booking}', [BookingController::class, 'show'])->name('bookings.show');
-        Route::patch('/bookings/{booking}/cancel', [BookingController::class, 'cancel'])->name('bookings.cancel');
-        Route::get('/services', [CustomerServiceController::class, 'index'])->name('services.index');
-        Route::get('/account', [AccountController::class, 'edit'])->name('account.edit');
-        Route::put('/account', [AccountController::class, 'update'])->name('account.update');
-    });
 
-Route::get('/test-bookings', [ReceptionistBookingController::class, 'index'])->name('test.bookings.index');
-Route::get('/test-bookings/{id}', [ReceptionistBookingController::class, 'show'])->whereNumber('id')->name('test.bookings.show');
+        Route::get('/dashboard', [HomeController::class, 'index'])
+            ->name('dashboard');
+
+        Route::get('/bookings', [BookingController::class, 'index'])
+            ->name('bookings.index');
+
+        Route::get('/bookings/create', [BookingController::class, 'create'])
+            ->name('bookings.create');
+
+        Route::post('/bookings', [BookingController::class, 'store'])
+            ->name('bookings.store');
+
+        Route::get('/bookings/{booking}', [BookingController::class, 'show'])
+            ->name('bookings.show');
+
+        Route::patch('/bookings/{booking}/cancel', [BookingController::class, 'cancel'])
+            ->name('bookings.cancel');
+
+        Route::get('/services', [CustomerServiceController::class, 'index'])
+            ->name('services.index');
+
+        Route::get('/account', [AccountController::class, 'edit'])
+            ->name('account.edit');
+
+        Route::put('/account', [AccountController::class, 'update'])
+            ->name('account.update');
+    });
