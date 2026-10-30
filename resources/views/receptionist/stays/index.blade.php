@@ -1,546 +1,835 @@
-@extends('layouts.customer')
 
-@section('title', 'Quản lý lưu trú | Vinpearl')
+<!DOCTYPE html>
+<html lang="vi">
 
-@push('styles')
-<style>
-    .stay-page {
-        padding: 50px 0 70px;
-        background: #f7f8fa;
-        min-height: 60vh;
-    }
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    .stay-heading {
-        margin-bottom: 28px;
-    }
+    <title>Quản lý lưu trú | Vinpearl</title>
 
-    .stay-eyebrow {
-        color: #b18a4a;
-        font-size: 12px;
-        font-weight: 700;
-        letter-spacing: 2px;
-    }
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
 
-    .stay-title {
-        color: #173b35;
-        font-size: clamp(26px, 3vw, 36px);
-        font-weight: 700;
-        margin: 8px 0;
-    }
-
-    .stay-subtitle {
-        color: #6c757d;
-        margin-bottom: 0;
-    }
-
-    .stay-stat {
-        height: 100%;
-        padding: 22px;
-        border: 1px solid #e8ebef;
-        border-radius: 14px;
-        background: #fff;
-        box-shadow: 0 5px 18px rgba(0, 0, 0, .035);
-    }
-
-    .stay-stat-label {
-        color: #6c757d;
-        font-size: 14px;
-    }
-
-    .stay-stat-number {
-        color: #173b35;
-        font-size: 30px;
-        font-weight: 700;
-        margin-top: 8px;
-    }
-
-    .stay-card {
-        background: #fff;
-        border: 1px solid #e8ebef;
-        border-radius: 14px;
-        overflow: hidden;
-        box-shadow: 0 5px 18px rgba(0, 0, 0, .035);
-    }
-
-    .stay-card-header {
-        padding: 22px 24px;
-        border-bottom: 1px solid #e8ebef;
-    }
-
-    .stay-card-title {
-        color: #173b35;
-        font-size: 19px;
-        font-weight: 700;
-        margin: 0;
-    }
-
-    .stay-table th {
-        background: #f5f7f7;
-        color: #53615e;
-        font-size: 12px;
-        text-transform: uppercase;
-        white-space: nowrap;
-        padding: 15px;
-    }
-
-    .stay-table td {
-        padding: 16px 15px;
-        vertical-align: middle;
-        font-size: 14px;
-    }
-
-    .stay-table tbody tr:hover {
-        background: #fafcfb;
-    }
-
-    .stay-code {
-        color: #173b35;
-        font-weight: 700;
-    }
-
-    .stay-muted {
-        color: #7b8583;
-        font-size: 12px;
-    }
-
-    .stay-badge {
-        display: inline-block;
-        padding: 6px 10px;
-        border-radius: 20px;
-        font-size: 12px;
-        font-weight: 600;
-        white-space: nowrap;
-    }
-
-    .stay-badge--confirmed {
-        color: #856404;
-        background: #fff3cd;
-    }
-
-    .stay-badge--checked-in {
-        color: #0f6848;
-        background: #d8f3e7;
-    }
-
-    .stay-badge--checked-out {
-        color: #495057;
-        background: #e9ecef;
-    }
-
-    .stay-badge--occupied {
-        color: #0f6848;
-        background: #d8f3e7;
-    }
-
-    .stay-badge--available {
-        color: #0d6efd;
-        background: #e7f1ff;
-    }
-
-    .stay-badge--cleaning {
-        color: #9a6700;
-        background: #fff0c2;
-    }
-
-    .stay-btn {
-        border-radius: 8px;
-        font-size: 13px;
-        font-weight: 600;
-        padding: 8px 12px;
-        white-space: nowrap;
-    }
-
-    .stay-btn-primary {
-        color: #fff;
-        background: #173b35;
-        border: 1px solid #173b35;
-    }
-
-    .stay-btn-primary:hover {
-        color: #fff;
-        background: #24574d;
-    }
-
-    .stay-btn-warning {
-        color: #fff;
-        background: #b18a4a;
-        border: 1px solid #b18a4a;
-    }
-
-    .stay-btn-warning:hover {
-        color: #fff;
-        background: #96723a;
-    }
-
-    .stay-empty {
-        padding: 45px 20px;
-        text-align: center;
-        color: #7b8583;
-    }
-
-    .stay-empty i {
-        display: block;
-        font-size: 34px;
-        margin-bottom: 12px;
-        color: #b18a4a;
-    }
-
-    .stay-filter {
-        max-width: 280px;
-    }
-
-    @media (max-width: 767px) {
-        .stay-page {
-            padding: 30px 0 45px;
+    <style>
+        :root {
+            --navy: #17324d;
+            --navy-light: #254762;
+            --gold: #b49a65;
+            --background: #f5f6f8;
+            --border: #e7e9ed;
         }
 
-        .stay-card-header {
-            padding: 18px;
+        body {
+            margin: 0;
+            font-family: "Segoe UI", Arial, sans-serif;
+            background: var(--background);
+            color: #344054;
+        }
+
+        /* HEADER */
+        .admin-header {
+            background: var(--navy);
+            color: white;
+            padding: 20px 0;
+            box-shadow: 0 3px 12px rgba(23, 50, 77, .12);
+        }
+
+        .brand {
+            color: white;
+            text-decoration: none;
+            font-size: 23px;
+            font-weight: 800;
+            letter-spacing: 2px;
+        }
+
+        .brand span {
+            display: block;
+            color: #d6c49b;
+            font-size: 9px;
+            letter-spacing: 2px;
+            margin-top: 3px;
+        }
+
+        .header-label {
+            font-size: 13px;
+            color: #e0e6ec;
+        }
+
+        /* MAIN */
+        .stay-main {
+            padding: 35px 0 60px;
+            min-height: 65vh;
+        }
+
+        .breadcrumb-text {
+            font-size: 13px;
+            color: #858d98;
+            margin-bottom: 20px;
+        }
+
+        .page-title {
+            color: var(--navy);
+            font-size: 29px;
+            font-weight: 700;
+            margin-bottom: 8px;
+        }
+
+        .page-description {
+            color: #7a8491;
+            font-size: 14px;
+            margin-bottom: 28px;
+        }
+
+        .btn-back {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 10px 16px;
+            background: white;
+            color: var(--navy);
+            border: 1px solid var(--navy);
+            border-radius: 6px;
+            text-decoration: none;
+            font-size: 13px;
+            font-weight: 600;
+            transition: .2s;
+            white-space: nowrap;
+        }
+
+        .btn-back:hover {
+            background: var(--navy);
+            color: white;
+        }
+
+        /* SUMMARY */
+        .summary-card {
+            height: 100%;
+            padding: 20px;
+            background: white;
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            box-shadow: 0 3px 12px rgba(23, 50, 77, .03);
+        }
+
+        .summary-label {
+            color: #7a8491;
+            font-size: 13px;
+            margin-bottom: 10px;
+        }
+
+        .summary-value {
+            color: var(--navy);
+            font-size: 26px;
+            font-weight: 700;
+        }
+
+        .summary-icon {
+            width: 45px;
+            height: 45px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: #f4efe4;
+            color: var(--gold);
+            border-radius: 10px;
+            font-size: 21px;
+        }
+
+        /* DATA CARD */
+        .data-card {
+            margin-top: 25px;
+            background: white;
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 3px 12px rgba(23, 50, 77, .03);
+        }
+
+        .data-card-header {
+            padding: 22px 24px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 12px;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .data-card-header h2 {
+            font-size: 17px;
+            font-weight: 700;
+            color: var(--navy);
+            margin: 0;
+        }
+
+        .card-subtitle {
+            color: #7a8491;
+            font-size: 12px;
+            margin-top: 5px;
+        }
+
+        .record-count {
+            color: #927640;
+            background: #f7f2e8;
+            border-radius: 20px;
+            padding: 7px 12px;
+            font-size: 12px;
+            font-weight: 600;
+            white-space: nowrap;
         }
 
         .stay-filter {
+            width: 280px;
             max-width: 100%;
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            padding: 9px 12px;
+            font-size: 13px;
         }
-    }
-</style>
-@endpush
 
-@section('content')
-<section class="stay-page">
-    <div class="container">
+        .stay-filter:focus {
+            border-color: var(--gold);
+            box-shadow: 0 0 0 .2rem rgba(180, 154, 101, .12);
+        }
 
-        {{-- Tiêu đề --}}
-        <div class="stay-heading">
-            <span class="stay-eyebrow">VINPEARL · RECEPTION</span>
-            <h1 class="stay-title">Quản lý lưu trú</h1>
-            <p class="stay-subtitle">
-                Theo dõi đặt phòng, thực hiện thủ tục nhận phòng và trả phòng.
-            </p>
+        /* TABLE */
+        .stay-table {
+            margin: 0;
+            vertical-align: middle;
+        }
+
+        .stay-table thead th {
+            background: #f8f9fb;
+            color: #647084;
+            font-size: 11px;
+            letter-spacing: .4px;
+            font-weight: 700;
+            padding: 16px;
+            white-space: nowrap;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .stay-table tbody td {
+            padding: 16px;
+            font-size: 13px;
+            white-space: nowrap;
+            border-color: #eef0f3;
+        }
+
+        .stay-table tbody tr:hover td {
+            background: #fcfaf5;
+        }
+
+        .stay-code {
+            color: var(--navy);
+            font-weight: 700;
+        }
+
+        .guest-name {
+            color: #344054;
+            font-weight: 600;
+        }
+
+        .stay-muted {
+            color: #7a8491;
+            font-size: 12px;
+        }
+
+        /* STATUS */
+        .status-label {
+            display: inline-block;
+            padding: 6px 10px;
+            border-radius: 20px;
+            font-size: 11px;
+            font-weight: 700;
+            white-space: nowrap;
+        }
+
+        .status-confirmed {
+            color: #927640;
+            background: #f4efe4;
+        }
+
+        .status-checked-in {
+            color: #0f6848;
+            background: #d8f3e7;
+        }
+
+        .status-checked-out {
+            color: #495057;
+            background: #e9ecef;
+        }
+
+        .status-other {
+            color: #0d6efd;
+            background: #e7f1ff;
+        }
+
+        /* ACTION BUTTONS */
+        .btn-stay {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+            padding: 8px 12px;
+            border-radius: 6px;
+            font-size: 12px;
+            font-weight: 600;
+            white-space: nowrap;
+            transition: .2s;
+        }
+
+        .btn-check-in {
+            color: white;
+            background: var(--navy);
+            border: 1px solid var(--navy);
+        }
+
+        .btn-check-in:hover {
+            color: white;
+            background: var(--gold);
+            border-color: var(--gold);
+        }
+
+        .btn-check-out {
+            color: white;
+            background: var(--gold);
+            border: 1px solid var(--gold);
+        }
+
+        .btn-check-out:hover {
+            color: white;
+            background: #927640;
+            border-color: #927640;
+        }
+
+        /* EMPTY */
+        .empty-state {
+            text-align: center;
+            padding: 45px 20px !important;
+            color: #7a8491;
+            white-space: normal !important;
+        }
+
+        .empty-state i {
+            display: block;
+            font-size: 35px;
+            color: var(--gold);
+            margin-bottom: 10px;
+        }
+
+        .pagination-area {
+            padding: 20px 24px;
+            border-top: 1px solid var(--border);
+            color: #8a929e;
+            font-size: 12px;
+        }
+
+        /* MODAL */
+        .stay-modal .modal-content {
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            overflow: hidden;
+        }
+
+        .stay-modal .modal-header {
+            padding: 20px 24px;
+            color: white;
+            background: var(--navy);
+        }
+
+        .stay-modal .modal-title {
+            font-size: 17px;
+            font-weight: 700;
+        }
+
+        .stay-modal .modal-body {
+            padding: 24px;
+        }
+
+        .stay-modal .form-label {
+            color: #344054;
+            font-size: 13px;
+            font-weight: 600;
+        }
+
+        .stay-modal .form-control,
+        .stay-modal .form-select {
+            font-size: 13px;
+            border-color: var(--border);
+            border-radius: 6px;
+            padding: 10px 12px;
+        }
+
+        .stay-modal .form-control:focus,
+        .stay-modal .form-select:focus {
+            border-color: var(--gold);
+            box-shadow: 0 0 0 .2rem rgba(180, 154, 101, .12);
+        }
+
+        .stay-modal .modal-footer {
+            padding: 16px 24px;
+            border-top: 1px solid var(--border);
+        }
+
+        /* FOOTER */
+        .admin-footer {
+            text-align: center;
+            padding: 20px;
+            color: #8a929e;
+            font-size: 12px;
+            border-top: 1px solid var(--border);
+            background: white;
+        }
+
+        @media (max-width: 767px) {
+            .stay-main {
+                padding-top: 25px;
+            }
+
+            .page-title {
+                font-size: 24px;
+            }
+
+            .data-card-header {
+                padding: 18px;
+            }
+
+            .stay-filter {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    {{-- HEADER LỄ TÂN --}}
+    <header class="admin-header">
+        <div class="container d-flex justify-content-between align-items-center gap-3">
+            <a href="{{ url('/receptionist/dashboard') }}" class="brand">
+                VINPEARL
+                <span>RECEPTION MANAGEMENT</span>
+            </a>
+
+            <div class="header-label d-none d-sm-block">
+                <i class="bi bi-person-badge me-2"></i>
+                Hệ thống quản lý lễ tân
+            </div>
         </div>
+    </header>
 
-        {{-- Thông báo --}}
-        @if(session('success'))
-            <div class="alert alert-success alert-dismissible fade show" role="alert">
-                <i class="bi bi-check-circle me-2"></i>
-                {{ session('success') }}
-                <button type="button" class="btn-close" data-bs-dismiss="alert"
-                    aria-label="Đóng"></button>
-            </div>
-        @endif
+    {{-- NỘI DUNG CHÍNH --}}
+    <main class="stay-main">
+        <div class="container">
 
-        @if(session('error'))
-            <div class="alert alert-danger alert-dismissible fade show" role="alert">
-                <i class="bi bi-exclamation-circle me-2"></i>
-                {{ session('error') }}
-                <button type="button" class="btn-close" data-bs-dismiss="alert"
-                    aria-label="Đóng"></button>
-            </div>
-        @endif
-
-        @if($errors->any())
-            <div class="alert alert-danger">
-                @foreach($errors->all() as $error)
-                    <div>{{ $error }}</div>
-                @endforeach
-            </div>
-        @endif
-
-        {{-- Thống kê --}}
-        @php
-            $tongDatPhong = $datPhong->count();
-            $choNhanPhong = $datPhong->filter(function ($item) {
-                return $item->stay_id == null;
-            })->count();
-            $dangLuuTru = $datPhong->filter(function ($item) {
-                return $item->stay_id != null && $item->actual_check_out == null;
-            })->count();
-        @endphp
-
-        <div class="row g-3 mb-4">
-            <div class="col-12 col-md-4">
-                <div class="stay-stat">
-                    <div class="stay-stat-label">
-                        <i class="bi bi-journal-check me-2"></i>Tổng lượt đặt phòng
-                    </div>
-                    <div class="stay-stat-number">{{ $tongDatPhong }}</div>
+            {{-- Tiêu đề --}}
+            <div class="mb-4">
+                <div class="breadcrumb-text">
+                    <i class="bi bi-house-door me-1"></i>
+                    Quản trị
+                    <span class="mx-2">/</span>
+                    Quản lý lưu trú
                 </div>
-            </div>
 
-            <div class="col-12 col-md-4">
-                <div class="stay-stat">
-                    <div class="stay-stat-label">
-                        <i class="bi bi-box-arrow-in-right me-2"></i>Chờ nhận phòng
-                    </div>
-                    <div class="stay-stat-number">{{ $choNhanPhong }}</div>
+                <div class="d-flex justify-content-between align-items-center flex-wrap gap-3">
+                    <h1 class="page-title mb-0">Quản lý lưu trú</h1>
+
+                    <a href="{{ url('/receptionist/dashboard') }}" class="btn-back">
+                        <i class="bi bi-arrow-left"></i>
+                        Quay lại Dashboard
+                    </a>
                 </div>
+
+                <p class="page-description">
+                    Theo dõi, kiểm tra và thực hiện thủ tục nhận phòng, trả phòng của khách hàng.
+                </p>
             </div>
 
-            <div class="col-12 col-md-4">
-                <div class="stay-stat">
-                    <div class="stay-stat-label">
-                        <i class="bi bi-house-check me-2"></i>Đang lưu trú
-                    </div>
-                    <div class="stay-stat-number">{{ $dangLuuTru }}</div>
+            {{-- THÔNG BÁO --}}
+            @if(session('success'))
+                <div class="alert alert-success alert-dismissible fade show" role="alert">
+                    <i class="bi bi-check-circle me-2"></i>
+                    {{ session('success') }}
+                    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
                 </div>
-            </div>
-        </div>
+            @endif
 
-        {{-- Danh sách lưu trú --}}
-        <div class="stay-card">
-            <div class="stay-card-header">
-                <div class="d-flex flex-column flex-md-row justify-content-between
-                    align-items-md-center gap-3">
+            @if(session('error'))
+                <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                    <i class="bi bi-exclamation-circle me-2"></i>
+                    {{ session('error') }}
+                    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                </div>
+            @endif
+
+            @if($errors->any())
+                <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                    @foreach($errors->all() as $error)
+                        <div>{{ $error }}</div>
+                    @endforeach
+
+                    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                </div>
+            @endif
+
+            {{-- THỐNG KÊ --}}
+            @php
+                $tongDatPhong = $datPhong->count();
+
+                $choNhanPhong = $datPhong->filter(function ($item) {
+                    return $item->stay_id == null;
+                })->count();
+
+                $dangLuuTru = $datPhong->filter(function ($item) {
+                    return $item->stay_id != null && $item->actual_check_out == null;
+                })->count();
+            @endphp
+
+            <div class="row g-3">
+
+                <div class="col-md-6 col-lg-4">
+                    <div class="summary-card">
+                        <div class="d-flex justify-content-between align-items-center">
+                            <div>
+                                <div class="summary-label">Tổng lượt đặt phòng</div>
+                                <div class="summary-value">{{ $tongDatPhong }}</div>
+                            </div>
+
+                            <div class="summary-icon">
+                                <i class="bi bi-calendar2-check"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-6 col-lg-4">
+                    <div class="summary-card">
+                        <div class="d-flex justify-content-between align-items-center">
+                            <div>
+                                <div class="summary-label">Chờ nhận phòng</div>
+                                <div class="summary-value">{{ $choNhanPhong }}</div>
+                            </div>
+
+                            <div class="summary-icon">
+                                <i class="bi bi-box-arrow-in-right"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-6 col-lg-4">
+                    <div class="summary-card">
+                        <div class="d-flex justify-content-between align-items-center">
+                            <div>
+                                <div class="summary-label">Đang lưu trú</div>
+                                <div class="summary-value">{{ $dangLuuTru }}</div>
+                            </div>
+
+                            <div class="summary-icon">
+                                <i class="bi bi-house-check"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+            {{-- DANH SÁCH LƯU TRÚ --}}
+            <div class="data-card">
+
+                <div class="data-card-header">
                     <div>
-                        <h2 class="stay-card-title">Danh sách phòng lưu trú</h2>
-                        <div class="stay-muted mt-1">
+                        <h2>
+                            <i class="bi bi-list-ul me-2" style="color: #b49a65;"></i>
+                            Danh sách phòng lưu trú
+                        </h2>
+
+                        <div class="card-subtitle">
                             Quản lý trạng thái nhận phòng và trả phòng
                         </div>
                     </div>
 
-                    <input type="text" id="staySearch"
-                        class="form-control stay-filter"
-                        placeholder="Tìm mã đặt phòng, khách, số phòng..."
-                        aria-label="Tìm kiếm lưu trú">
+                    <div class="d-flex align-items-center flex-wrap gap-2">
+                        <span class="record-count">
+                            {{ $tongDatPhong }} lượt đặt phòng
+                        </span>
+
+                        <input type="text" id="staySearch"
+                            class="form-control stay-filter"
+                            placeholder="Tìm mã đặt phòng, khách, số phòng..."
+                            aria-label="Tìm kiếm lưu trú">
+                    </div>
                 </div>
-            </div>
 
-            <div class="table-responsive">
-                <table class="table stay-table mb-0" id="stayTable">
-                    <thead>
-                        <tr>
-                            <th>Mã đặt phòng</th>
-                            <th>Khách hàng</th>
-                            <th>Loại phòng</th>
-                            <th>Số phòng</th>
-                            <th>Thời gian</th>
-                            <th>Trạng thái</th>
-                            <th>Thao tác</th>
-                        </tr>
-                    </thead>
-
-                    <tbody>
-                        @forelse($datPhong as $item)
+                <div class="table-responsive">
+                    <table class="table stay-table" id="stayTable">
+                        <thead>
                             <tr>
-                                <td>
-                                    <span class="stay-code">
-                                        {{ $item->booking_code }}
-                                    </span>
-                                    <div class="stay-muted">
-                                        Chi tiết #{{ $item->booking_room_id }}
-                                    </div>
-                                </td>
+                                <th>MÃ ĐẶT PHÒNG</th>
+                                <th>KHÁCH HÀNG</th>
+                                <th>LOẠI PHÒNG</th>
+                                <th>SỐ PHÒNG</th>
+                                <th>THỜI GIAN</th>
+                                <th>TRẠNG THÁI</th>
+                                <th>THAO TÁC</th>
+                            </tr>
+                        </thead>
 
-                                <td>
-                                    <div class="fw-semibold">
-                                        {{ $item->guest_name }}
-                                    </div>
-                                    <div class="stay-muted">
-                                        {{ $item->guest_phone }}
-                                    </div>
-                                    @if($item->tenTaiKhoan)
+                        <tbody>
+                            @forelse($datPhong as $item)
+                                <tr>
+                                    <td>
+                                        <span class="stay-code">
+                                            {{ $item->booking_code }}
+                                        </span>
+
                                         <div class="stay-muted">
-                                            Tài khoản: {{ $item->tenTaiKhoan }}
+                                            Chi tiết #{{ $item->booking_room_id }}
                                         </div>
-                                    @endif
-                                </td>
+                                    </td>
 
-                                <td>{{ $item->room_type_name }}</td>
+                                    <td>
+                                        <span class="guest-name">
+                                            {{ $item->guest_name }}
+                                        </span>
 
-                                <td>
-                                    @if($item->room_number)
-                                        <span class="fw-semibold">
-                                            {{ $item->room_number }}
-                                        </span>
-                                    @else
-                                        <span class="text-muted">Chưa xếp phòng</span>
-                                    @endif
-                                </td>
+                                        <div class="stay-muted">
+                                            {{ $item->guest_phone }}
+                                        </div>
 
-                                <td>
-                                    <div>
-                                        <i class="bi bi-calendar-check me-1"></i>
-                                        {{ $item->check_in_date }}
-                                    </div>
-                                    <div class="stay-muted mt-1">
-                                        <i class="bi bi-calendar2-check me-1"></i>
-                                        {{ $item->check_out_date }}
-                                    </div>
-                                </td>
+                                        @if($item->tenTaiKhoan)
+                                            <div class="stay-muted">
+                                                Tài khoản: {{ $item->tenTaiKhoan }}
+                                            </div>
+                                        @endif
+                                    </td>
 
-                                <td>
-                                    @if($item->actual_check_out != null)
-                                        <span class="stay-badge stay-badge--checked-out">
-                                            Đã trả phòng
-                                        </span>
-                                    @elseif($item->stay_id != null)
-                                        <span class="stay-badge stay-badge--checked-in">
-                                            Đang lưu trú
-                                        </span>
-                                    @elseif($item->booking_status == 'confirmed')
-                                        <span class="stay-badge stay-badge--confirmed">
-                                            Chờ nhận phòng
-                                        </span>
-                                    @else
-                                        <span class="stay-badge stay-badge--available">
-                                            {{ $item->booking_status }}
-                                        </span>
-                                    @endif
-                                </td>
+                                    <td>{{ $item->room_type_name }}</td>
 
-                                <td>
-                                    @if($item->stay_id == null)
-                                        <button type="button"
-                                            class="btn stay-btn stay-btn-primary"
-                                            data-bs-toggle="modal"
-                                            data-bs-target="#checkInModal"
-                                            data-booking-room-id="{{ $item->booking_room_id }}"
-                                            data-guest-name="{{ $item->guest_name }}"
-                                            data-room-type="{{ $item->room_type_name }}">
-                                            <i class="bi bi-box-arrow-in-right me-1"></i>
-                                            Nhận phòng
-                                        </button>
-                                    @elseif($item->actual_check_out == null)
-                                        <form method="POST"
-                                            action="{{ route('receptionist.stays.checkOut', $item->stay_id) }}"
-                                            onsubmit="return confirm('Xác nhận trả phòng này?');">
-                                            @csrf
-                                            <button type="submit"
-                                                class="btn stay-btn stay-btn-warning">
-                                                <i class="bi bi-box-arrow-right me-1"></i>
-                                                Trả phòng
+                                    <td>
+                                        @if($item->room_number)
+                                            <span class="fw-semibold">
+                                                {{ $item->room_number }}
+                                            </span>
+                                        @else
+                                            <span class="text-muted">Chưa xếp phòng</span>
+                                        @endif
+                                    </td>
+
+                                    <td>
+                                        <div>
+                                            <i class="bi bi-calendar-check me-1"></i>
+                                            {{ $item->check_in_date }}
+                                        </div>
+
+                                        <div class="stay-muted mt-1">
+                                            <i class="bi bi-calendar2-check me-1"></i>
+                                            {{ $item->check_out_date }}
+                                        </div>
+                                    </td>
+
+                                    <td>
+                                        @if($item->actual_check_out != null)
+                                            <span class="status-label status-checked-out">
+                                                Đã trả phòng
+                                            </span>
+                                        @elseif($item->stay_id != null)
+                                            <span class="status-label status-checked-in">
+                                                Đang lưu trú
+                                            </span>
+                                        @elseif($item->booking_status == 'confirmed')
+                                            <span class="status-label status-confirmed">
+                                                Chờ nhận phòng
+                                            </span>
+                                        @else
+                                            <span class="status-label status-other">
+                                                {{ $item->booking_status }}
+                                            </span>
+                                        @endif
+                                    </td>
+
+                                    <td>
+                                        @if($item->stay_id == null)
+                                            <button type="button"
+                                                class="btn btn-stay btn-check-in"
+                                                data-bs-toggle="modal"
+                                                data-bs-target="#checkInModal"
+                                                data-booking-room-id="{{ $item->booking_room_id }}"
+                                                data-guest-name="{{ $item->guest_name }}"
+                                                data-room-type="{{ $item->room_type_name }}">
+
+                                                <i class="bi bi-box-arrow-in-right"></i>
+                                                Nhận phòng
                                             </button>
-                                        </form>
-                                    @else
-                                        <span class="text-muted small">Hoàn tất</span>
-                                    @endif
-                                </td>
-                            </tr>
-                        @empty
-                            <tr>
-                                <td colspan="7">
-                                    <div class="stay-empty">
-                                        <i class="bi bi-calendar2-x"></i>
-                                        <div class="fw-semibold">Chưa có dữ liệu lưu trú</div>
-                                        <div class="small mt-1">
+
+                                        @elseif($item->actual_check_out == null)
+                                            <form method="POST"
+                                                action="{{ route('receptionist.stays.checkOut', $item->stay_id) }}"
+                                                onsubmit="return confirm('Xác nhận trả phòng này?');">
+
+                                                @csrf
+
+                                                <button type="submit"
+                                                    class="btn btn-stay btn-check-out">
+                                                    <i class="bi bi-box-arrow-right"></i>
+                                                    Trả phòng
+                                                </button>
+                                            </form>
+
+                                        @else
+                                            <span class="text-muted small">Hoàn tất</span>
+                                        @endif
+                                    </td>
+                                </tr>
+
+                            @empty
+                                <tr>
+                                    <td colspan="7" class="empty-state">
+                                        <i class="bi bi-calendar-x"></i>
+
+                                        <strong class="d-block mb-2">
+                                            Chưa có dữ liệu lưu trú
+                                        </strong>
+
+                                        <span>
                                             Các đặt phòng đã xác nhận sẽ xuất hiện tại đây.
-                                        </div>
-                                    </div>
-                                </td>
-                            </tr>
-                        @endforelse
-                    </tbody>
-                </table>
-            </div>
+                                        </span>
+                                    </td>
+                                </tr>
+                            @endforelse
+                        </tbody>
+                    </table>
+                </div>
 
-            <div class="px-4 py-3 border-top text-muted small">
-                Hiển thị {{ $datPhong->count() }} dòng dữ liệu.
+                <div class="pagination-area">
+                    Hiển thị {{ $datPhong->count() }} dòng dữ liệu.
+                </div>
+
+            </div>
+        </div>
+    </main>
+
+    {{-- MODAL NHẬN PHÒNG --}}
+    <div class="modal fade stay-modal" id="checkInModal" tabindex="-1"
+        aria-labelledby="checkInModalLabel" aria-hidden="true">
+
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+
+                <form method="POST" id="checkInForm">
+                    @csrf
+
+                    <div class="modal-header">
+                        <h2 class="modal-title" id="checkInModalLabel">
+                            <i class="bi bi-door-open me-2"></i>
+                            Thực hiện nhận phòng
+                        </h2>
+
+                        <button type="button" class="btn-close btn-close-white"
+                            data-bs-dismiss="modal" aria-label="Đóng"></button>
+                    </div>
+
+                    <div class="modal-body">
+                        <p class="text-muted small mb-4">
+                            Vui lòng kiểm tra thông tin và chọn phòng phù hợp.
+                        </p>
+
+                        <div class="mb-3">
+                            <label class="form-label">Khách hàng</label>
+
+                            <input type="text" id="checkInGuest"
+                                class="form-control" readonly>
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label">Loại phòng đã đặt</label>
+
+                            <input type="text" id="checkInRoomType"
+                                class="form-control" readonly>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="room_id" class="form-label">
+                                Chọn phòng trống <span class="text-danger">*</span>
+                            </label>
+
+                            <select name="room_id" id="room_id"
+                                class="form-select" required>
+
+                                <option value="">-- Chọn phòng --</option>
+
+                                @foreach($phongTrong as $phong)
+                                    <option value="{{ $phong->id }}"
+                                        data-room-type-id="{{ $phong->room_type_id }}">
+                                        Phòng {{ $phong->room_number }}
+                                    </option>
+                                @endforeach
+                            </select>
+
+                            @if($phongTrong->isEmpty())
+                                <div class="form-text text-danger">
+                                    Hiện không có phòng trống.
+                                </div>
+                            @endif
+                        </div>
+                    </div>
+
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-light"
+                            data-bs-dismiss="modal">
+                            Hủy
+                        </button>
+
+                        <button type="submit" class="btn btn-stay btn-check-in"
+                            {{ $phongTrong->isEmpty() ? 'disabled' : '' }}>
+                            <i class="bi bi-check-circle"></i>
+                            Xác nhận nhận phòng
+                        </button>
+                    </div>
+
+                </form>
             </div>
         </div>
     </div>
-</section>
 
-{{-- Modal nhận phòng --}}
-<div class="modal fade" id="checkInModal" tabindex="-1"
-    aria-labelledby="checkInModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content border-0 rounded-4">
-            <form method="POST" id="checkInForm">
-                @csrf
+    {{-- FOOTER --}}
+    <footer class="admin-footer">
+        &copy; {{ date('Y') }} Vinpearl — Hệ thống quản lý lưu trú nội bộ
+    </footer>
 
-                <div class="modal-header">
-                    <h2 class="modal-title fs-5" id="checkInModalLabel">
-                        <i class="bi bi-door-open me-2"></i>Thực hiện nhận phòng
-                    </h2>
-                    <button type="button" class="btn-close"
-                        data-bs-dismiss="modal" aria-label="Đóng"></button>
-                </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 
-                <div class="modal-body">
-                    <p class="text-muted small">
-                        Vui lòng kiểm tra thông tin và chọn phòng phù hợp.
-                    </p>
+    <script>
+        // Tìm kiếm trong danh sách lưu trú
+        document.getElementById('staySearch').addEventListener('input', function () {
+            var tuKhoa = this.value.toLowerCase().trim();
+            var cacDong = document.querySelectorAll('#stayTable tbody tr');
 
-                    <div class="mb-3">
-                        <label class="form-label">Khách hàng</label>
-                        <input type="text" id="checkInGuest"
-                            class="form-control" readonly>
-                    </div>
-
-                    <div class="mb-3">
-                        <label class="form-label">Loại phòng đã đặt</label>
-                        <input type="text" id="checkInRoomType"
-                            class="form-control" readonly>
-                    </div>
-
-                    <div class="mb-3">
-                        <label for="room_id" class="form-label">
-                            Chọn phòng trống <span class="text-danger">*</span>
-                        </label>
-
-                        <select name="room_id" id="room_id"
-                            class="form-select" required>
-                            <option value="">-- Chọn phòng --</option>
-
-                            @foreach($phongTrong as $phong)
-                                <option value="{{ $phong->id }}"
-                                    data-room-type-id="{{ $phong->room_type_id }}">
-                                    Phòng {{ $phong->room_number }}
-                                </option>
-                            @endforeach
-                        </select>
-
-                        @if($phongTrong->isEmpty())
-                            <div class="form-text text-danger">
-                                Hiện không có phòng trống.
-                            </div>
-                        @endif
-                    </div>
-                </div>
-
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-light"
-                        data-bs-dismiss="modal">
-                        Hủy
-                    </button>
-                    <button type="submit" class="btn stay-btn stay-btn-primary"
-                        {{ $phongTrong->isEmpty() ? 'disabled' : '' }}>
-                        <i class="bi bi-check-circle me-1"></i>
-                        Xác nhận nhận phòng
-                    </button>
-                </div>
-            </form>
-        </div>
-    </div>
-</div>
-@endsection
-
-@push('scripts')
-<script>
-    // Tìm kiếm trong danh sách lưu trú
-    document.getElementById('staySearch').addEventListener('input', function () {
-        var tuKhoa = this.value.toLowerCase().trim();
-        var cacDong = document.querySelectorAll('#stayTable tbody tr');
-
-        cacDong.forEach(function (dong) {
-            var noiDung = dong.textContent.toLowerCase();
-            dong.style.display = noiDung.includes(tuKhoa) ? '' : 'none';
+            cacDong.forEach(function (dong) {
+                var noiDung = dong.textContent.toLowerCase();
+                dong.style.display = noiDung.includes(tuKhoa) ? '' : 'none';
+            });
         });
-    });
 
-    // Chuẩn bị thông tin cho modal nhận phòng
-    var checkInModal = document.getElementById('checkInModal');
+        // Chuẩn bị thông tin cho modal nhận phòng
+        var checkInModal = document.getElementById('checkInModal');
 
-    checkInModal.addEventListener('show.bs.modal', function (event) {
-        var nut = event.relatedTarget;
-        var bookingRoomId = nut.getAttribute('data-booking-room-id');
-        var guestName = nut.getAttribute('data-guest-name');
-        var roomType = nut.getAttribute('data-room-type');
+        checkInModal.addEventListener('show.bs.modal', function (event) {
+            var nut = event.relatedTarget;
 
-        document.getElementById('checkInGuest').value = guestName;
-        document.getElementById('checkInRoomType').value = roomType;
+            var bookingRoomId = nut.getAttribute('data-booking-room-id');
+            var guestName = nut.getAttribute('data-guest-name');
+            var roomType = nut.getAttribute('data-room-type');
 
-        document.getElementById('checkInForm').action =
-            '/receptionist/stays/' + bookingRoomId + '/check-in';
-    });
-</script>
-@endpush
+            document.getElementById('checkInGuest').value = guestName;
+            document.getElementById('checkInRoomType').value = roomType;
+
+            document.getElementById('checkInForm').action =
+                '/receptionist/stays/' + bookingRoomId + '/check-in';
+        });
+    </script>
+
+</body>
+</html>

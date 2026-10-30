@@ -1,0 +1,531 @@
+
+/* =====================================
+   GENERAL
+===================================== */
+
+.receptionist-page {
+    margin: 0;
+    min-height: 100vh;
+    background: #f4f6fa;
+    color: #263247;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+.receptionist-page * {
+    box-sizing: border-box;
+}
+
+.receptionist-wrapper {
+    display: flex;
+    min-height: 100vh;
+}
+
+/* =====================================
+   SIDEBAR
+===================================== */
+
+.receptionist-sidebar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 1000;
+    width: 250px;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    background: #17243a;
+    color: #fff;
+}
+
+.receptionist-brand {
+    height: 75px;
+    padding: 0 22px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    color: #fff;
+    text-decoration: none;
+    font-size: 19px;
+    font-weight: bold;
+    border-bottom: 1px solid rgba(255,255,255,0.1);
+}
+
+.receptionist-brand i {
+    font-size: 25px;
+    color: #65a7ff;
+}
+
+.receptionist-profile {
+    padding: 24px 18px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    border-bottom: 1px solid rgba(255,255,255,0.1);
+}
+
+.profile-avatar {
+    width: 42px;
+    height: 42px;
+    flex-shrink: 0;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #e6efff;
+    color: #2767c7;
+    font-size: 21px;
+}
+
+.profile-info {
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+}
+
+.profile-info strong {
+    font-size: 14px;
+    overflow-wrap: anywhere;
+}
+
+.profile-info small {
+    margin-top: 5px;
+    color: #aab7ca;
+    font-size: 12px;
+}
+
+.sidebar-heading {
+    padding: 24px 22px 12px;
+    color: #8292aa;
+    font-size: 11px;
+    font-weight: bold;
+    letter-spacing: 1px;
+}
+
+.receptionist-menu {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    padding: 0 12px;
+}
+
+.receptionist-menu-link {
+    padding: 13px 15px;
+    display: flex;
+    align-items: center;
+    gap: 13px;
+    border-radius: 8px;
+    color: #c5d0df;
+    text-decoration: none;
+    font-size: 14px;
+    transition: 0.2s;
+}
+
+.receptionist-menu-link i {
+    font-size: 18px;
+}
+
+.receptionist-menu-link:hover,
+.receptionist-menu-link.active {
+    color: #fff;
+    background: #2d4770;
+}
+
+.sidebar-bottom {
+    margin-top: auto;
+    padding: 18px 12px;
+    border-top: 1px solid rgba(255,255,255,0.1);
+}
+
+.sidebar-bottom a {
+    padding: 12px 15px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    border-radius: 8px;
+    color: #c5d0df;
+    text-decoration: none;
+}
+
+.sidebar-bottom a:hover {
+    background: #2d4770;
+    color: #fff;
+}
+
+/* =====================================
+   MAIN CONTENT
+===================================== */
+
+.receptionist-main {
+    width: calc(100% - 250px);
+    min-height: 100vh;
+    margin-left: 250px;
+    display: flex;
+    flex-direction: column;
+}
+
+.receptionist-topbar {
+    height: 75px;
+    padding: 0 32px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: #fff;
+    border-bottom: 1px solid #e8edf3;
+}
+
+.topbar-left {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.topbar-left h5 {
+    margin: 0 0 5px;
+    color: #263247;
+    font-size: 17px;
+    font-weight: bold;
+}
+
+.topbar-left small {
+    color: #8994a5;
+    font-size: 12px;
+}
+
+.topbar-account {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.account-info {
+    display: flex;
+    flex-direction: column;
+    text-align: right;
+}
+
+.account-info strong {
+    font-size: 13px;
+}
+
+.account-info small {
+    margin-top: 4px;
+    color: #8994a5;
+    font-size: 12px;
+}
+
+.sidebar-toggle {
+    display: none;
+    padding: 0;
+    border: none;
+    background: transparent;
+    color: #263247;
+    font-size: 26px;
+    cursor: pointer;
+}
+
+.receptionist-content {
+    flex: 1;
+    padding: 30px 32px;
+}
+
+.receptionist-footer {
+    padding: 18px 32px;
+    display: flex;
+    justify-content: space-between;
+    background: #fff;
+    border-top: 1px solid #e8edf3;
+    color: #8994a5;
+    font-size: 12px;
+}
+
+/* =====================================
+   WELCOME BANNER
+===================================== */
+
+.welcome-banner {
+    min-height: 210px;
+    margin-bottom: 32px;
+    padding: 35px 40px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    overflow: hidden;
+    border-radius: 14px;
+    background: linear-gradient(120deg, #1d477e, #327bd0);
+    color: #fff;
+}
+
+.welcome-text {
+    max-width: 650px;
+}
+
+.welcome-label {
+    color: #c9e0ff;
+    font-size: 11px;
+    font-weight: bold;
+    letter-spacing: 2px;
+}
+
+.welcome-banner h2 {
+    margin: 13px 0 10px;
+    font-size: 27px;
+    font-weight: bold;
+}
+
+.welcome-banner p {
+    margin: 0;
+    color: #e0edff;
+    font-size: 14px;
+    line-height: 1.7;
+}
+
+.welcome-icon {
+    padding: 0 25px;
+    color: rgba(255,255,255,0.18);
+    font-size: 105px;
+}
+
+/* =====================================
+   SECTION HEADING
+===================================== */
+
+.section-heading {
+    margin-bottom: 20px;
+}
+
+.section-heading h4 {
+    margin: 0 0 7px;
+    color: #263247;
+    font-size: 19px;
+    font-weight: bold;
+}
+
+.section-heading p {
+    margin: 0;
+    color: #8994a5;
+    font-size: 13px;
+}
+
+/* =====================================
+   FUNCTION CARDS
+===================================== */
+
+.function-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 20px;
+}
+
+.function-card {
+    min-height: 190px;
+    padding: 24px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    border: 1px solid #e9edf3;
+    border-radius: 12px;
+    background: #fff;
+    color: #263247;
+    text-decoration: none;
+    transition: all 0.25s ease;
+}
+
+.function-card:hover {
+    transform: translateY(-4px);
+    border-color: #b7d3f8;
+    box-shadow: 0 8px 25px rgba(36,82,140,0.09);
+}
+
+.function-icon {
+    width: 46px;
+    height: 46px;
+    margin-bottom: 17px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 10px;
+    font-size: 22px;
+}
+
+.booking-icon {
+    background: #e6f0ff;
+    color: #3679d2;
+}
+
+.stay-icon {
+    background: #e4f7ee;
+    color: #269866;
+}
+
+.service-icon {
+    background: #fff2df;
+    color: #e39a35;
+}
+
+.invoice-icon {
+    background: #f1eaff;
+    color: #8958c9;
+}
+
+.function-card h5 {
+    margin: 0 0 8px;
+    font-size: 16px;
+    font-weight: bold;
+}
+
+.function-card p {
+    margin: 0;
+    color: #8994a5;
+    font-size: 13px;
+    line-height: 1.6;
+}
+
+.function-link {
+    margin-top: auto;
+    padding-top: 18px;
+    color: #3478ca;
+    font-size: 13px;
+    font-weight: bold;
+}
+
+/* =====================================
+   WORKFLOW
+===================================== */
+
+.workflow-section {
+    margin-top: 35px;
+    padding: 25px;
+    border: 1px solid #e9edf3;
+    border-radius: 12px;
+    background: #fff;
+}
+
+.workflow-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 22px;
+}
+
+.workflow-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 15px;
+}
+
+.workflow-number {
+    width: 38px;
+    height: 38px;
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 9px;
+    background: #eaf2ff;
+    color: #3478ca;
+    font-size: 13px;
+    font-weight: bold;
+}
+
+.workflow-item strong {
+    font-size: 14px;
+}
+
+.workflow-item p {
+    margin: 6px 0 0;
+    color: #8994a5;
+    font-size: 12px;
+    line-height: 1.6;
+}
+
+/* =====================================
+   RESPONSIVE
+===================================== */
+
+.receptionist-overlay {
+    display: none;
+}
+
+@media (max-width: 992px) {
+
+    .receptionist-sidebar {
+        transform: translateX(-100%);
+        transition: transform 0.3s ease;
+    }
+
+    .receptionist-sidebar.show {
+        transform: translateX(0);
+    }
+
+    .receptionist-main {
+        width: 100%;
+        margin-left: 0;
+    }
+
+    .sidebar-toggle {
+        display: block;
+    }
+
+    .receptionist-overlay.show {
+        display: block;
+        position: fixed;
+        inset: 0;
+        z-index: 999;
+        background: rgba(0,0,0,0.4);
+    }
+
+}
+
+@media (max-width: 768px) {
+
+    .receptionist-content {
+        padding: 20px 16px;
+    }
+
+    .receptionist-topbar {
+        padding: 0 16px;
+    }
+
+    .account-info {
+        display: none;
+    }
+
+    .welcome-banner {
+        padding: 25px;
+    }
+
+    .welcome-banner h2 {
+        font-size: 21px;
+    }
+
+    .welcome-icon {
+        display: none;
+    }
+
+    .function-grid,
+    .workflow-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .receptionist-footer {
+        padding: 15px 16px;
+        flex-wrap: wrap;
+        gap: 10px;
+    }
+
+}
+
+@media (max-width: 480px) {
+
+    .welcome-banner {
+        padding: 22px;
+    }
+
+    .welcome-banner h2 {
+        font-size: 19px;
+    }
+
+    .workflow-section {
+        padding: 18px;
+    }
+
+}
