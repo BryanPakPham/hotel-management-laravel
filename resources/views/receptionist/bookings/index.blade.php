@@ -270,6 +270,25 @@
                 padding: 18px;
             }
         }
+        .btn-back {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 10px 16px;
+            background: white;
+            color: var(--navy);
+            border: 1px solid var(--navy);
+            border-radius: 6px;
+            text-decoration: none;
+            font-size: 13px;
+            font-weight: 600;
+            transition: .2s;
+        }
+
+        .btn-back:hover {
+            background: var(--navy);
+            color: white;
+        }
     </style>
 </head>
 
@@ -299,7 +318,14 @@
             Đặt phòng
         </div>
 
-        <h1 class="page-title">Quản lý đặt phòng</h1>
+        <div class="d-flex justify-content-between align-items-center flex-wrap gap-3 mb-2">
+            <h1 class="page-title mb-0">Quản lý đặt phòng</h1>
+
+            <a href="{{ url('/receptionist/dashboard') }}" class="btn-back">
+                <i class="bi bi-arrow-left"></i>
+                Quay lại Dashboard
+            </a>
+        </div>
         
         @if (session('success'))
             <div class="alert alert-success alert-dismissible fade show" role="alert">
