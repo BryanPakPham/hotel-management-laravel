@@ -129,7 +129,7 @@ class ServiceController extends Controller
                     $luuTru->actual_check_out != null
                 ) {
                     throw new \Exception(
-                        'Khach khong con dang luu tru.'
+                        'Khách không còn đang lưu trú.'
                     );
                 }
 
@@ -140,7 +140,7 @@ class ServiceController extends Controller
 
                 if (!$dichVu) {
                     throw new \Exception(
-                        'Dich vu khong ton tai hoac da ngung hoat dong.'
+                        'Dịch vụ không tồn tại hoặc đã ngừng hoạt động.'
                     );
                 }
 
@@ -165,7 +165,7 @@ class ServiceController extends Controller
                 ->route('receptionist.services.index')
                 ->with(
                     'success',
-                    'Ghi nhan dich vu thanh cong.'
+                    'Ghi nhận dịch vụ thành công.'
                 );
         } catch (\Exception $e) {
             return back()->with('error', $e->getMessage());

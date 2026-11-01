@@ -89,7 +89,7 @@ class StayController extends Controller
 
                 if (!$chiTietDatPhong) {
                     throw new \Exception(
-                        'Khong tim thay chi tiet dat phong.'
+                        'Không tìm thấy chi tiết đặt phòng.'
                     );
                 }
 
@@ -98,7 +98,7 @@ class StayController extends Controller
                     ['confirmed', 'checked_in']
                 )) {
                     throw new \Exception(
-                        'Don dat phong chua du dieu kien nhan phong.'
+                        'Đơn đặt phòng chưa đủ điều kiện nhận phòng.'
                     );
                 }
 
@@ -108,7 +108,7 @@ class StayController extends Controller
 
                 if ($luuTru) {
                     throw new \Exception(
-                        'Phong nay da duoc lam thu tuc nhan phong.'
+                        'Phòng này đã được làm thủ tục nhận phòng.'
                     );
                 }
 
@@ -119,13 +119,13 @@ class StayController extends Controller
 
                 if (!$phong) {
                     throw new \Exception(
-                        'Khong tim thay phong duoc chon.'
+                        'Không tìm thấy phòng được chọn.'
                     );
                 }
 
                 if ($phong->status != 'available') {
                     throw new \Exception(
-                        'Phong nay khong con trong.'
+                        'Phòng này không còn trong.'
                     );
                 }
 
@@ -134,7 +134,7 @@ class StayController extends Controller
                     $chiTietDatPhong->room_type_id
                 ) {
                     throw new \Exception(
-                        'Loai phong khong phu hop voi don dat.'
+                        'Loại phòng không phù hợp với đơn đặt.'
                     );
                 }
 
@@ -189,7 +189,7 @@ class StayController extends Controller
 
             return back()->with(
                 'success',
-                'Nhan phong thanh cong.'
+                'Nhận phòng thành công.'
             );
         } catch (\Exception $e) {
             return back()->with('error', $e->getMessage());
@@ -204,7 +204,7 @@ class StayController extends Controller
         if (!$nhanVienId) {
             return back()->with(
                 'error',
-                'Vui long dang nhap truoc khi tra phong.'
+                'Vui lòng đăng nhập trước khi trả phòng.'
             );
         }
 
@@ -231,13 +231,13 @@ class StayController extends Controller
 
                 if (!$luuTru) {
                     throw new \Exception(
-                        'Khong tim thay thong tin luu tru.'
+                        'Không tìm thấy thông tin lưu trú.'
                     );
                 }
 
                 if ($luuTru->actual_check_out != null) {
                     throw new \Exception(
-                        'Phong nay da duoc tra truoc do.'
+                        'Phòng này đã được trả trước đó.'
                     );
                 }
 
@@ -282,7 +282,7 @@ class StayController extends Controller
 
             return back()->with(
                 'success',
-                'Tra phong thanh cong. Phong dang cho don dep.'
+                'Trả phòng thành công. Phòng đang chờ dọn dẹp.'
             );
         } catch (\Exception $e) {
             return back()->with('error', $e->getMessage());
