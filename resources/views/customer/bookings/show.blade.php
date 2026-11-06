@@ -73,27 +73,27 @@
                         </strong>
                     </div>
                 @endforeach
-            </div>
 
-            <div class="booking-detail-actions">
-                <a href="{{ route('customer.bookings.index') }}" class="back-link">
-                    <i class="bi bi-arrow-left"></i>
-                    Về danh sách đặt phòng
-                </a>
+                <div class="booking-detail-actions">
+                    <a href="{{ route('customer.bookings.index') }}" class="back-link">
+                        <i class="bi bi-arrow-left"></i>
+                        Về danh sách đặt phòng
+                    </a>
 
-                @if (in_array($booking->status, ['pending', 'confirmed'], true) && $booking->check_in_date->isFuture())
-                    <form
-                        method="POST"
-                        action="{{ route('customer.bookings.cancel', $booking) }}"
-                        onsubmit="return confirm('Bạn có chắc muốn hủy đặt phòng này không?')"
-                    >
-                        @csrf
-                        @method('PATCH')
-                        <button class="btn btn-outline-danger" type="submit">
-                            Hủy đặt phòng
-                        </button>
-                    </form>
-                @endif
+                    @if (in_array($booking->status, ['pending', 'confirmed'], true) && $booking->check_in_date->toDateString() >= \Illuminate\Support\Carbon::today()->toDateString())
+                        <form
+                            method="POST"
+                            action="{{ route('customer.bookings.cancel', $booking) }}"
+                            onsubmit="return confirm('Bạn có chắc muốn hủy đặt phòng {{ $booking->booking_code }} không?')"
+                        >
+                            @csrf
+                            @method('PATCH')
+                            <button class="btn btn-outline-danger" type="submit">
+                                <i class="bi bi-x-circle me-1"></i> Hủy đặt phòng
+                            </button>
+                        </form>
+                    @endif
+                </div>
             </div>
         </div>
     </section>
