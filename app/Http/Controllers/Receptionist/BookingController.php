@@ -56,7 +56,7 @@ class BookingController extends Controller
             ->first();
 
         if (!$dat) {
-            abort(404, 'Khong tim thay don dat phong.');
+            abort(404, 'Không tìm thấy đơn đặt phòng.');
         }
 
         // Lay tat ca cac phong thuoc don dat
@@ -106,13 +106,13 @@ class BookingController extends Controller
             ->first();
 
         if (!$dat) {
-            abort(404, 'Khong tim thay don dat phong.');
+            abort(404, 'Không tìm thấy đơn đặt phòng.');
         }
 
         if ($dat->status != 'pending') {
             return back()->with(
                 'error',
-                'Chi co don dang cho xac nhan moi duoc xac nhan.'
+                'Chỉ có đơn đang chờ xác nhận mới được xác nhận.'
             );
         }
 
@@ -126,7 +126,58 @@ class BookingController extends Controller
 
         return back()->with(
             'success',
-            'Xac nhan don dat phong thanh cong.'
+            'Xác nhận đơn đặt phòng thành công.'
+        );
+    }
+
+    // Huy don dat phong
+    public function cancel($id)
+    {
+        $dat = DB::table('bookings')
+            ->where('id', $id)
+            ->first();
+
+        if (!$dat) {
+            abort(404, 'Không tìm thấy đơn đặt phòng.');
+        }
+
+        // Chi cho phep huy don dang cho hoac da xac nhan
+        if (!in_array($dat->status, ['pending', 'confirmed'])) {
+            return back()->with(
+                'error',
+                'Đơn đặt phòng này không thể hủy.'
+            );
+        }
+
+        // Kiem tra khach da nhan phong hay chua
+        $daNhanPhong = DB::table('booking_rooms')
+            ->join(
+                'stay_records',
+                'booking_rooms.id',
+                '=',
+                'stay_records.booking_room_id'
+            )
+            ->where('booking_rooms.booking_id', $id)
+            ->whereNotNull('stay_records.actual_check_in')
+            ->exists();
+
+        if ($daNhanPhong) {
+            return back()->with(
+                'error',
+                'Không thể hủy đơn vì khách đã nhận phòng.'
+            );
+        }
+
+        DB::table('bookings')
+            ->where('id', $id)
+            ->update([
+                'status' => 'cancelled',
+                'updated_at' => now()
+            ]);
+
+        return back()->with(
+            'success',
+            'Hủy đơn đặt phòng thành công.'
         );
     }
 }

@@ -1,4 +1,3 @@
-
 @extends('layouts.receptionist')
 
 @section('title', 'Dashboard Lễ tân')

@@ -47,11 +47,24 @@
             </nav>
 
             <div class="sidebar-bottom">
+
                 <a href="{{ route('receptionist.dashboard') }}">
                     <i class="bi bi-house-door"></i>
                     <span>Trang chủ</span>
                 </a>
-            </div>
+
+                <div class="sidebar-logout">
+                    <form action="{{ route('logout') }}" method="POST">
+                        @csrf
+
+                        <button type="submit">
+                            <i class="bi bi-box-arrow-right"></i>
+                            <span>Đăng xuất</span>
+                        </button>
+                    </form>
+                </div>
+
+            </div>                                          
 
         </aside>
 

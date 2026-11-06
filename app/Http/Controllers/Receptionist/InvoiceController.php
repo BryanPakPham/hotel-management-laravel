@@ -83,7 +83,7 @@ class InvoiceController extends Controller
         if (!$nhanVienId) {
             return back()->with(
                 'error',
-                'Vui long dang nhap bang tai khoan le tan.'
+                'Vui lòng đăng nhập bằng tài khoản lễ tân.'
             );
         }
 
@@ -99,7 +99,7 @@ class InvoiceController extends Controller
 
                 if (!$booking || $booking->status !== 'checked_out') {
                     throw new \RuntimeException(
-                        'Chi co the lap hoa don cho booking da tra phong.'
+                        'Chỉ có thể lập hóa đơn cho booking đã trả phòng.'
                     );
                 }
 
@@ -109,7 +109,7 @@ class InvoiceController extends Controller
 
                 if ($daCoHoaDon) {
                     throw new \RuntimeException(
-                        'Booking nay da co hoa don.'
+                        'Booking này đã có hóa đơn.'
                     );
                 }
 
@@ -119,7 +119,7 @@ class InvoiceController extends Controller
 
                 if ($bookingRooms->isEmpty()) {
                     throw new \RuntimeException(
-                        'Booking khong co phong nao.'
+                        'Booking không có phòng nào.'
                     );
                 }
 
@@ -139,7 +139,7 @@ class InvoiceController extends Controller
                         !$stay->actual_check_out
                     ) {
                         throw new \RuntimeException(
-                            'Tat ca phong phai check-out truoc khi lap hoa don.'
+                            'Tất cả phòng phải check-out trước khi lập hóa đơn.'
                         );
                     }
 
@@ -153,7 +153,7 @@ class InvoiceController extends Controller
 
                     if ($checkOut->lt($checkIn)) {
                         throw new \RuntimeException(
-                            'Thoi gian check-out khong hop le.'
+                            'Thời gian check-out không hợp lệ.'
                         );
                     }
 
@@ -227,7 +227,7 @@ class InvoiceController extends Controller
 
             return redirect()
                 ->route('receptionist.invoices.show', $invoiceId)
-                ->with('success', 'Lap hoa don thanh cong.');
+                ->with('success', 'Lập hóa đơn thành công.');
         } catch (\Throwable $e) {
             report($e);
 
@@ -235,7 +235,7 @@ class InvoiceController extends Controller
                 'error',
                 $e instanceof \RuntimeException
                     ? $e->getMessage()
-                    : 'Khong the lap hoa don. Vui long kiem tra du lieu.'
+                    : 'Không thể lập hóa đơn. Vui lòng kiểm tra dữ liệu.'
             );
         }
     }
@@ -258,7 +258,7 @@ class InvoiceController extends Controller
             )
             ->first();
 
-        abort_if(!$invoice, 404, 'Khong tim thay hoa don.');
+        abort_if(!$invoice, 404, 'Không tìm thấy hóa đơn.');
 
         $invoice->paid_amount = DB::table('payments')
             ->where('invoice_id', $invoice->id)
@@ -399,7 +399,7 @@ class InvoiceController extends Controller
         if (!$nhanVienId) {
             return back()->with(
                 'error',
-                'Vui long dang nhap truoc khi ghi nhan thanh toan.'
+                'Vui lòng đăng nhập trước khi ghi nhận thanh toán.'
             );
         }
 
@@ -416,13 +416,13 @@ class InvoiceController extends Controller
 
                 if (!$invoice) {
                     throw new \RuntimeException(
-                        'Khong tim thay hoa don.'
+                        'Không tìm thấy hóa đơn.'
                     );
                 }
 
                 if ($invoice->status === 'refunded') {
                     throw new \RuntimeException(
-                        'Hoa don da hoan tien, khong the thanh toan.'
+                        'Hóa đơn đã hoàn tiền, không thể thanh toán.'
                     );
                 }
 
@@ -440,13 +440,13 @@ class InvoiceController extends Controller
 
                 if ($remaining <= 0) {
                     throw new \RuntimeException(
-                        'Hoa don da duoc thanh toan du.'
+                        'Hóa đơn đã được thanh toán đủ.'
                     );
                 }
 
                 if ($amount > $remaining) {
                     throw new \RuntimeException(
-                        'So tien thanh toan vuot qua so tien con no.'
+                        'Số tiền thanh toán vượt quá số tiền còn nợ.'
                     );
                 }
 
@@ -479,7 +479,7 @@ class InvoiceController extends Controller
 
             return redirect()
                 ->route('receptionist.invoices.show', $id)
-                ->with('success', 'Ghi nhan thanh toan thanh cong.');
+                ->with('success', 'Ghi nhận thanh toán thành công.');
         } catch (\Throwable $e) {
             report($e);
 
@@ -487,7 +487,7 @@ class InvoiceController extends Controller
                 'error',
                 $e instanceof \RuntimeException
                     ? $e->getMessage()
-                    : 'Khong the ghi nhan thanh toan. Vui long thu lai.'
+                    : 'Không thể ghi nhận thanh toán. Vui lòng thử lại.'
             );
         }
     }

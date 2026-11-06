@@ -98,6 +98,7 @@ Route::middleware(['auth', 'role:receptionist'])
         Route::post('/invoices', [ReceptionistInvoiceController::class, 'store'])->name('invoices.store');
         Route::get('/invoices/{id}', [ReceptionistInvoiceController::class, 'show'])->name('invoices.show');
         Route::post('/invoices/{id}/payments', [ReceptionistInvoiceController::class, 'storePayment'])->name('invoices.payments.store');
+        Route::post('/bookings/{id}/cancel', [ReceptionistBookingController::class,'cancel'])->name('bookings.cancel');
     });
 
 // Khu vực Khách hàng
