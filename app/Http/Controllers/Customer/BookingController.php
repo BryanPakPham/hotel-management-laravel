@@ -147,7 +147,7 @@ class BookingController extends Controller
             return back()->withErrors(['booking' => 'Đặt phòng này không thể hủy ở trạng thái hiện tại.']);
         }
 
-        if ($booking->check_in_date->toDateString() < Carbon::today()->toDateString()) {
+        if (Carbon::parse($booking->check_in_date)->isPast() && ! Carbon::parse($booking->check_in_date)->isToday()) {
             return back()->withErrors(['booking' => 'Không thể hủy đặt phòng sau khi đã qua ngày nhận phòng.']);
         }
 
